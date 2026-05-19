@@ -2,17 +2,23 @@
 
 namespace Config
 {
-    constexpr int ScreenWidth = 1280;
-    constexpr int ScreenHeight = 720;
+    constexpr int SCREEN_WIDTH = 1280;
+    constexpr int SCREEN_HEIGHT = 720;
 
-    constexpr int ScreenFPS = 60;
-}
+    constexpr int SCREEN_FPS = 60;
 
-namespace Math
-{
-    template<typename T>
-    constexpr T Clamp(T v, T min, T max)
-    {
-        return (v < min) ? min : (v > max) ? max : v;
-    }
+    // ===== ƒeƒgƒŠƒX =====
+
+    constexpr int FIELD_WIDTH = 10;
+    constexpr int FIELD_HEIGHT = 22;
+
+    constexpr int BLOCK_SIZE = 32;
+
+    constexpr int FIELD_X = 400;
+    constexpr int FIELD_Y = 40;
+
+    constexpr int VISIBLE_HEIGHT = 20;
+
+    constexpr int FIELD_PIXEL_W = FIELD_WIDTH * BLOCK_SIZE;
+    constexpr int FIELD_PIXEL_H = VISIBLE_HEIGHT * BLOCK_SIZE;
 }

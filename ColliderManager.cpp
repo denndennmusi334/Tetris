@@ -121,8 +121,8 @@ bool ColliderManager::CircleVsBox(
     Vector2D<float> bp = b->GetWorldPosition();
     Vector2D<float> h = b->GetHalfSize();
 
-    float x = Math::Clamp(cp.x, bp.x - h.x, bp.x + h.x);
-    float y = Math::Clamp(cp.y, bp.y - h.y, bp.y + h.y);
+    float x = MyStd::Clamp(cp.x, bp.x - h.x, bp.x + h.x);
+    float y = MyStd::Clamp(cp.y, bp.y - h.y, bp.y + h.y);
 
     Vector2D<float> closest{ x, y };
     return (cp - closest).LengthSq() <= c->GetRadius() * c->GetRadius();
@@ -192,7 +192,7 @@ Vector2D<float> ClosestPointOnSegment(
 {
     Vector2D<float> ab = b - a;
     float t = (p - a).Dot(ab) / ab.LengthSq();
-    t = Math::Clamp(t, 0.0f, 1.0f);
+    t = MyStd::Clamp(t, 0.0f, 1.0f);
     return a + ab * t;
 }
 
@@ -250,7 +250,7 @@ float ColliderManager::DistanceSq_Point_Segment(
     Vector2D<float> ap = p - a;
 
     float t = ap.Dot(ab) / ab.Dot(ab);
-    t = Math::Clamp(t, 0.0f, 1.0f);
+    t = MyStd::Clamp(t, 0.0f, 1.0f);
 
     Vector2D<float> closest = a + ab * t;
     return (p - closest).LengthSq();

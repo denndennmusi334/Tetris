@@ -22,7 +22,7 @@ BOOL TimeManager::UpdateTiming()
         return FALSE;
     }
 
-    if (us < 1000000 / Config::ScreenFPS)
+    if (us < 1000000 / Config::SCREEN_FPS)
     {
         return FALSE;
     }

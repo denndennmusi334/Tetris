@@ -1,11 +1,12 @@
 #pragma once
 #include "BaseScene.h"
-#include "DrawManager.h"
+#include "MinoManager.h"
 
 class GameScene :
     public BaseScene
 {
 private:
+	MinoManager minoMgr;
 public:
 	GameScene(SceneController* sceneController);
 	~GameScene();

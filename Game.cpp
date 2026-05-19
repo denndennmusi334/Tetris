@@ -46,6 +46,11 @@ void Game::Update()
     sceneMgr->Update();
 }
 
+void Game::Kill()
+{
+	sceneMgr->Kill();
+}
+
 bool Game::Run()
 {
     if (ProcessMessage() != 0) return false;
@@ -57,6 +62,8 @@ bool Game::Run()
         InputManager::GetInstance().Update();
         Update();
         Draw();
+        
+		Kill();
     }
 
     return true;

@@ -7,12 +7,16 @@ class GameObject : public Drawable
 private:
     Vector2D<float> pos = { 0,0 };
     std::vector<std::unique_ptr<BaseCollider>> colliders;
-
-
 public:
     
     Vector2D<float> GetPosition() const { return pos; }
     void SetPosition(const Vector2D<float>& p) { pos = p; }
+
+    void Destroy() { 
+        Drawable::Destroy();
+		for (auto& col : colliders)
+			col->Destroy();
+    }
 
     void AddCollider(std::unique_ptr<BaseCollider> col);
 

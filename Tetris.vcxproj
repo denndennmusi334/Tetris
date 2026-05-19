@@ -20,9 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="BackGroundStar.cpp" />
     <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="BaseCommandBox.cpp" />
     <ClCompile Include="BaseScene.cpp" />
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderManager.cpp" />
@@ -37,18 +40,23 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Job.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MinoManager.cpp" />
     <ClCompile Include="SceneController.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Tetromino.cpp" />
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="BackGround.h" />
+    <ClInclude Include="BackGroundStar.h" />
     <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="BaseCommandBox.h" />
     <ClInclude Include="BaseScene.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderManager.h" />
@@ -63,9 +71,12 @@
     <ClInclude Include="ImageLoadManager.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Job.h" />
+    <ClInclude Include="MinoManager.h" />
+    <ClInclude Include="MyStd.h" />
     <ClInclude Include="SceneController.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Tetromino.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

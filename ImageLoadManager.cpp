@@ -3,9 +3,9 @@
 
 void ImageLoadManager::Initialize()
 {
+	/*
 	const TCHAR* tex[TEX_COUNT] = {
-		_T("texture/background_forest.png"),
-		_T("texture/background_cave.png"),
+
 	};
 
 
@@ -14,6 +14,9 @@ void ImageLoadManager::Initialize()
 		grHandle[i] = LoadGraph(tex[i], FALSE);
 		assert(grHandle[i] >= 0);
 	}
+	*/
+
+	LoadDivGraph(L"Resources/Images/ƒeƒgƒŠƒX‘fŞ.png", 7, 7, 1, 32, 32, &grHandle[0]);
 }
 
 void ImageLoadManager::Finalize()

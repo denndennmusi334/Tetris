@@ -22,3 +22,4 @@
 //©ìƒwƒbƒ_[.
 #include "Vector.h"
 #include "Config.h"
+#include "Mystd.h"

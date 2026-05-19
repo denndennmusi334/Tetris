@@ -11,7 +11,7 @@ public:
 	void DestroyedDrawableCheck()
 	{
 		drawList.erase(std::remove_if(drawList.begin(), drawList.end(),
-			[](Drawable* obj) { return !obj || obj->IsDestroyed(); }),
+			[](Drawable* obj) {return !obj || obj->IsDestroyed();}),
 			drawList.end());
 	}
 private:

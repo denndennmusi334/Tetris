@@ -35,6 +35,7 @@ public:
     void Finalize()                     override ; //終了処理
     void Update()                       override ; //更新
     void Draw()                         override ; //描画
+	void Kill()                                  ; //シーンのKill
 
     bool IsQuitRequested() const { return requestQuit; }
 

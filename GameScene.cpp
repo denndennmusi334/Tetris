@@ -14,6 +14,7 @@ GameScene::~GameScene()
 
 void GameScene::Initialize()
 {
+	minoMgr.Initialize();
 }
 
 void GameScene::Finalize()
@@ -22,6 +23,8 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
+	minoMgr.Update();
+	GameObjectManager::GetInstance().Update();
 }
 
 void GameScene::Draw()
@@ -31,6 +34,8 @@ void GameScene::Draw()
 
 void GameScene::Kill()
 {
+	drawMgr.DestroyedDrawableCheck();
+
 	ColliderManager::GetInstance().DestroyedColliderCheck();
 	GameObjectManager::GetInstance().CheckDestroyedObjects();
 }

@@ -36,6 +36,13 @@ void SceneManager::Draw()
 	Scene->Draw();
 }
 
+void SceneManager::Kill()
+{
+
+    Scene->Kill();
+    
+}
+
 void SceneManager::HandleSceneChange()
 {
     if (NextScene == SceneName::INVALID) return;

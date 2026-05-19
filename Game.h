@@ -11,6 +11,7 @@ public:
     void Finalize();
     void Draw();
     void Update();
+    void Kill();
 
     bool Run();
 };
