@@ -13,7 +13,7 @@ public:
 	GameMap();
 	~GameMap();
 
-	void BreakBlockCheck();
+	int BreakBlockCheck();
 	void BreakLine(int line);
 
 	void SetBlock(Tetromino* mino);

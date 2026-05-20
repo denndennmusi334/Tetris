@@ -3,6 +3,7 @@
 #include <cmath>
 #include <type_traits>
 #include <limits>
+#include "MyStd.h"
 
 /// <summary>
 /// â~é¸ó¶ PI
@@ -318,6 +319,9 @@ struct Vector2D
         return CrossLine(A, B) == 0;
     }
 };
+
+#pragma region Vec2 åvéZóp.
+
 // unary -
 template<typename T>
 constexpr Vector2D<T> operator-(const Vector2D<T>& v) noexcept {
@@ -423,7 +427,31 @@ template<typename T>
 constexpr Vector2D<T>& operator/=(Vector2D<T>& v, const T& s) noexcept {
     v.x /= s; v.y /= s; return v;
 }
+#pragma endregion
 
 // aliases
 using Vec2f = Vector2D<float>;
 using Vec2i = Vector2D<int>;
+
+#pragma region DxlibÇÃä÷êîVec2
+
+namespace MyDrawDxlib
+{
+	inline void M_DrawCircle(const Vec2i& center, int radius, unsigned int color, bool fill = false,int LineThickness = 1) {
+        DrawCircle(center.x, center.y, radius, color, MyStd::Cast<int>(fill), LineThickness);
+	}
+
+    inline void M_DrawCircleAA(const Vec2f& center, float radius, int posnum, unsigned int color, bool fill = false, float lineThickness = 1, float angle = 0) {
+        DrawCircleAA(center.x, center.y, radius, posnum, color, MyStd::Cast<int>(fill), lineThickness, angle);
+    }
+
+	inline void M_DrawLine(const Vec2i& start, const Vec2i& end, unsigned int color, int LineThickness = 1) {
+		DrawLine(start.x, start.y, end.x, end.y, color, LineThickness);
+	}
+
+	inline void M_DrawLineAA(const Vec2f& start, const Vec2f& end, unsigned int color, float LineThickness = 1) {
+		DrawLineAA(start.x, start.y, end.x, end.y, color, LineThickness);
+	}
+}
+
+#pragma endregion

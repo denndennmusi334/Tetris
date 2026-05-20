@@ -12,7 +12,6 @@ Vector2D<float> BaseCollider::GetWorldPosition() const
 void BaseCollider::SetOwner(GameObject* o)
 {
     owner = o;
-    ColliderManager::GetInstance().Register(this);
 }
 
 BaseCollider::~BaseCollider()

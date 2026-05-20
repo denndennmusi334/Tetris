@@ -21,4 +21,8 @@ namespace Config
 
     constexpr int FIELD_PIXEL_W = FIELD_WIDTH * BLOCK_SIZE;
     constexpr int FIELD_PIXEL_H = VISIBLE_HEIGHT * BLOCK_SIZE;
+
+	// ===== îwåi =====
+
+	constexpr int STAR_COUNT = 100;
 }

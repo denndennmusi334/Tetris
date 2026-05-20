@@ -25,6 +25,7 @@ public:
     std::function<void()> onLayerChanged;
     void SetDrawLayer(int _drawLayer) {
         drawLayer = _drawLayer;
+		assert(onLayerChanged && "onLayerChanged ‚Ì’†g‚ª‚È‚¢‚æ.");
         if (onLayerChanged)
             onLayerChanged();
     }

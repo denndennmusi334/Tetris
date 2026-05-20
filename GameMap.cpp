@@ -26,8 +26,10 @@ void GameMap::Draw()
 {
 }
 
-void GameMap::BreakBlockCheck()
+int GameMap::BreakBlockCheck()
 {
+	int lineCount = 0;
+
 	for (int j = 0; j < Config::FIELD_HEIGHT; j++)
 	{
 		bool isFull = true;
@@ -44,9 +46,11 @@ void GameMap::BreakBlockCheck()
 		if (isFull)
 		{
 			BreakLine(j);
+			lineCount++;
 			j--; //ラインが消えたので、同じ行をもう一度チェックするためにjをデクリメント.
 		}
 	}
+	return lineCount;
 }
 
 
@@ -81,6 +85,5 @@ void GameMap::SetBlock(Tetromino* mino)
 		Vec2i pos = mino->GetBlockGridPosition(i);
 		map[pos.x][pos.y] = mino->GetBlock(i);
 	}
-	BreakBlockCheck();
 	mino->Destroy();
 }

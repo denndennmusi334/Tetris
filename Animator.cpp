@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Animator.h"
 
+using namespace MyStd;
+
 Animator::Animator()
     : currentAnim(nullptr),
     currentFrame(0),
@@ -59,19 +61,47 @@ void Animator::Update()
     }
 }
 
-void Animator::Draw(float x, float y, float scale, float angle, BOOL trans_flag)
+void Animator::Draw(Vec2f pos, float scale, float angle, BOOL trans_flag)
 {
     if (!currentAnim) return;
 
-    const auto& frames = currentAnim->GetFrames();
-    if (frames.empty()) return;
+    const auto& frame = currentAnim->GetFrames()[currentFrame];
+    if(frame.graphicHandle != -1)
+    {
+        DrawRotaGraphFastF(
+            pos.x,
+            pos.y,
+            scale,
+            angle,
+            frame.graphicHandle,
+            trans_flag
+        );
+    }
 
-    DrawRotaGraphFastF(
-        x,
-        y,
-        scale,
-        angle,
-        frames[currentFrame],
-        trans_flag
-    );
+    for (const auto& shape : frame.shapes)
+    {
+        std::visit([&](auto&& s) {
+            using S = std::decay_t<decltype(s)>;
+
+            if constexpr (std::is_same_v<S, AnimCircle>) {
+                // 円の描画（x, y からのオフセットを足す）
+                DrawCircle(
+                    Cast<int>(pos.x + s.offset.x),
+                    Cast<int>(pos.y + s.offset.y),
+                    Cast<int>(s.radius),
+                    s.color, s.fill
+                );
+            }
+            else if constexpr (std::is_same_v<S, AnimRect>) {
+                // 矩形の描画
+                DrawBox(
+                    Cast<int>(pos.x + s.offset.x),
+                    Cast<int>(pos.y + s.offset.y),
+                    Cast<int>(pos.x + s.offset.y + s.width),
+                    Cast<int>(pos.y + s.offset.x + s.height),
+                    s.color, s.fill
+                );
+            }
+            }, shape);
+    }
 }

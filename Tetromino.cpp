@@ -11,7 +11,6 @@ Tetromino::Tetromino()
 Tetromino::Tetromino(MinoType _type)
 	: type(_type)
 {
-	Initialize();
 }
 
 Tetromino::~Tetromino()

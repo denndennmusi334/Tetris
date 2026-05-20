@@ -2,7 +2,7 @@
 #define NOMINMAX
 #define _CRT_SECURE_NO_WARNINGS
 #define _USE_MATH_DEFINES
-#define DEBUG (1)
+#define DEBUG false
 
 #include <vector>
 #include <windows.h>
@@ -17,6 +17,9 @@
 #include <string>
 #include <fstream>
 #include <functional>
+#include <chrono>
+#include <variant>
+
 
 #include "DxLib.h"
 //é©çÏÉwÉbÉ_Å[.

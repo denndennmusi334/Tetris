@@ -10,7 +10,6 @@ Block::Block()
 
 Block::Block(BlockColor _color) : color(_color)
 {
-	Initialize();
 }
 
 Block::~Block()

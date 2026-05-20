@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ColliderManager.h"
-#include "GameObject.h"
 
 void ColliderManager::CheckAllCollisions()
 {

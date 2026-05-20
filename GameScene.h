@@ -1,12 +1,14 @@
 #pragma once
 #include "BaseScene.h"
 #include "MinoManager.h"
+#include "BackGround.h"
 
 class GameScene :
     public BaseScene
 {
 private:
 	MinoManager minoMgr;
+	BackGround* bg = nullptr;
 public:
 	GameScene(SceneController* sceneController);
 	~GameScene();

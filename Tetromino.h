@@ -17,7 +17,8 @@ enum class MinoType
 	O,
 	S,
 	Z,
-	T
+	T,
+	None
 };
 
 class Tetromino : public GameObject

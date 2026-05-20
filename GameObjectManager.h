@@ -5,6 +5,7 @@ class GameObjectManager
 {
 private:
     std::vector<std::unique_ptr<GameObject>> objects;
+    std::vector<std::unique_ptr<GameObject>> addBuffer;
 
     GameObjectManager() = default;
 	DrawManager* drawMgr = nullptr;
@@ -19,12 +20,14 @@ public:
     T* Create(Args&&... args)
     {
         static_assert(std::is_base_of<GameObject, T>::value,
-            "T must derive from GameObject");
+            "T must derive from GameObject –ó:‚±‚êGameObjectŒp³‚µ‚Ä‚È‚¢‚æ...");
 
         auto obj = std::make_unique<T>(std::forward<Args>(args)...);
         T* ptr = obj.get();
-        objects.push_back(std::move(obj));
-		drawMgr->Add(ptr); // DrawManager‚É“o˜^
+        drawMgr->Add(ptr); // DrawManager‚É“o˜^
+        obj->Initialize(); // ‰Šú‰»‚ğŒÄ‚Ô‚Ì‚Í‚±‚±‚Å‚¢‚¢‚Æv‚¤.¶¬‚Æ‰Šú‰»‚ÍƒZƒbƒg‚È‚±‚Æ‚ª‘½‚¢‚µ.
+        addBuffer.push_back(std::move(obj));
+
         return ptr;
     }
 

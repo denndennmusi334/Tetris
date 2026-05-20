@@ -6,6 +6,8 @@
 
 using namespace MyStd;
 
+
+
 MinoManager::MinoManager()
 {
 }
@@ -23,6 +25,10 @@ void MinoManager::Initialize()
 	nextMino->SetGridPosition(Vec2i{ Config::FIELD_WIDTH + 2, 2 }); //フィールドの右側に次のミノを表示するための位置.
 
 	gameMap = std::make_unique<GameMap>();
+
+	level = 1;
+	linesForNextLevel = 10;
+	UpdateFallInterval();
 }
 
 void MinoManager::Finalize()
@@ -40,36 +46,48 @@ void MinoManager::Draw(const Camera& camera)
 
 void MinoManager::MinoUpdate()
 {
+	if (isGameOver)return;
+
 	auto& input = InputManager::GetInstance();
 	auto Gpos = currentMino->GetGridPosition();
 	if (input.isTrigger(KEY_INPUT_E))
 	{
 		TryRotateRight();
+		lastActionIsRotate = true;
 	}
 	else if (input.isTrigger(KEY_INPUT_Q))
 	{
 		TryRotateLeft();
+		lastActionIsRotate = true;
 	}
 	else if (input.isTrigger(KEY_INPUT_A))
 	{
 		TestMino(Vec2i(-1, 0));
+		lastActionIsRotate = false;
 	}
 	else if (input.isTrigger(KEY_INPUT_D))
 	{
 		TestMino(Vec2i(1, 0));
+		lastActionIsRotate = false;
 	}
 	else if (input.isTrigger(KEY_INPUT_S))
 	{
 		TestMino(Vec2i(0, 1));
+		lastActionIsRotate = false;
 	}
 	else if (input.isTrigger(KEY_INPUT_W))
 	{
 		HardDrop();
 	}
+	else if (input.isTrigger(KEY_INPUT_SPACE))
+	{
+		TryHold();
+	}
 	
 	if (fallTimer >= fallInterval)
 	{
 		TestMino(Vec2i(0, 1));
+		lastActionIsRotate = false;
 		fallTimer = 0.0;
 	}
 	else
@@ -92,6 +110,42 @@ void MinoManager::MinoUpdate()
 		lockTimer = 0.0f;
 	}
 
+}
+
+void MinoManager::TryHold()
+{
+	if (hasHeldInThisTurn) return;
+
+	MinoType currentType = currentMino->GetType();
+
+	if (holdMinoType == MinoType::None)
+	{
+		holdMinoType = currentType;
+		holdMinoVisual = currentMino;
+		currentMino = nextMino;
+		currentMino->SetGridPosition(Vec2i{ 5, 0 });
+
+		nextMino = GameObjectManager::GetInstance().Create<Tetromino>(GetNextType());
+		nextMino->SetGridPosition(Vec2i{ Config::FIELD_WIDTH + 2, 2 });
+	}
+	else
+	{
+		MinoType prevHoldType = holdMinoType;
+		holdMinoType = currentType;
+
+		Tetromino* newHoldMino = currentMino;
+		currentMino = holdMinoVisual;
+		holdMinoVisual = newHoldMino;
+
+		currentMino->SetGridPosition(Vec2i{ 5, 1 });
+	}
+
+	holdMinoVisual->SetGridPosition(Vec2i{ -4, 2 });
+
+	hasHeldInThisTurn = true;
+
+	fallTimer = 0.0f;
+	lockTimer = 0.0f;
 }
 
 void MinoManager::TestMino(const Vec2i& newPos) const
@@ -158,10 +212,25 @@ void MinoManager::HardDrop()
 void MinoManager::LockMino()
 {
 	gameMap->SetBlock(currentMino);
-	nextMino->SetGridPosition(Vec2i{ 5, 1 }); //次のミノをフィールドの上に出すための位置.
+
+	int cornerCount = 0;
+	bool isMini = false;
+	bool isTspin = CheckTSpinCondition(cornerCount, isMini);
+
+	int clearedLines = gameMap->BreakBlockCheck();
+
+	AddScore(clearedLines, isTspin, isMini);
+
+	nextMino->SetGridPosition(Vec2i{ 5, 0 });
 	currentMino = nextMino;
-	nextMino =GameObjectManager::GetInstance().Create<Tetromino>(GetNextType());
-	nextMino->SetGridPosition(Vec2i{ Config::FIELD_WIDTH + 2, 2 }); //フィールドの右側に次のミノを表示するための位置.
+	nextMino = GameObjectManager::GetInstance().Create<Tetromino>(GetNextType());
+	nextMino->SetGridPosition(Vec2i{ Config::FIELD_WIDTH + 2, 2 });
+
+	if (!IsMoveValid(currentMino->GetGridPosition())) { isGameOver = true; }
+
+	lastActionIsRotate = false;
+	hasHeldInThisTurn = false;
+	lastKickIndex = -1;
 }
 
 #pragma region 回転部分SRS
@@ -405,6 +474,7 @@ void MinoManager::TryRotateRight()
 		if (IsMoveValid(testPos))
 		{
 			currentMino->SetGridPosition(testPos);
+			lastKickIndex = i; // 最後に成功したキックの番号を保存
 			return;
 		}
 	}
@@ -447,6 +517,7 @@ void MinoManager::TryRotateLeft()
 		if (IsMoveValid(testPos))
 		{
 			currentMino->SetGridPosition(testPos);
+			lastKickIndex = i; // 最後に成功したキックの番号を保存
 			return;
 		}
 	}
@@ -493,4 +564,108 @@ bool MinoManager::IsMoveValid(const Vec2i& newPos) const
 	}
 
 	return true;
+}
+
+bool MinoManager::CheckTSpinCondition(int& outCornerCount, bool& outIsMini)
+{
+	if (currentMino->GetType() != MinoType::T) return false;
+
+	if (!lastActionIsRotate) return false;
+
+	Vec2i center = currentMino->GetGridPosition(); 
+
+	Vec2i corners[4] = {
+		{ -1, -1 }, { 1, -1 },  // 左上、右上
+		{ -1,  1 }, { 1,  1 }   // 左下、右下
+	};
+
+	int blockCount = 0;
+	for (const auto& offset : corners)
+	{
+		Vec2i world = center + offset;
+
+		if (world.x < 0 || world.x >= Config::FIELD_WIDTH || world.y >= Config::FIELD_HEIGHT)
+		{
+			blockCount++;
+		}
+		else if (world.y >= 0 && gameMap->GetBlock(world) != nullptr)
+		{
+			blockCount++;
+		}
+	}
+
+	if (blockCount >= 3)
+	{
+		outCornerCount = blockCount;
+
+
+		if (lastKickIndex == 3 || lastKickIndex == 4)
+		{
+			outIsMini = false; 
+		}
+		else
+		{
+			outIsMini = true;
+		}
+		return true;
+	}
+
+	return false;
+}
+void MinoManager::AddScore(int lineCount, bool isTspin, bool isMini)
+{
+	int baseScore = 0;
+
+	if (isTspin)
+	{
+		if (isMini)
+		{
+			if (lineCount == 0) baseScore = 100;
+			else if (lineCount == 1) baseScore = 200;
+			else if (lineCount == 2) baseScore = 400;
+		}
+		else
+		{
+			if (lineCount == 0) baseScore = 400;
+			else if (lineCount == 1) baseScore = 800;
+			else if (lineCount == 2) baseScore = 1200;
+			else if (lineCount == 3) baseScore = 1600;
+		}
+	}
+	else
+	{
+		if (lineCount == 1) baseScore = 100;
+		else if (lineCount == 2) baseScore = 300;
+		else if (lineCount == 3) baseScore = 500;
+		else if (lineCount == 4) baseScore = 800;
+	}
+
+	score += baseScore;
+	totalLinesCleared += lineCount;
+
+	if (isTspin) {
+		isEffectPlaying = true;
+	}
+
+	if (lineCount > 0)
+	{
+		linesForNextLevel -= lineCount;
+
+		while (linesForNextLevel <= 0)
+		{
+			level++;
+			linesForNextLevel += 10;
+		}
+
+		UpdateFallInterval();
+	}
+}
+
+void MinoManager::UpdateFallInterval()
+{
+	int tableIndex = level - 1;
+	if (tableIndex < 0) tableIndex = 0;
+	if (tableIndex > 15) tableIndex = 15;
+
+	fallInterval = SPEED_TABLE[tableIndex];
 }

@@ -1,7 +1,7 @@
 #pragma once
-#include <vector>
 #include "BaseCollider.h"
 #include "Collider.h"
+#include "GameObject.h"
 
 class ColliderManager
 {
@@ -10,6 +10,7 @@ private:
     ColliderManager() = default;
 
     bool CheckPair(BaseCollider* a, BaseCollider* b);
+
 
     bool CircleVsCircle(const CircleCollider* a, const CircleCollider* b);
     bool BoxVsBox(const BoxCollider* a, const BoxCollider* b);
@@ -25,12 +26,20 @@ public:
         static ColliderManager instance;
         return instance;
     }
-    // “o˜^
-    void Register(BaseCollider* col)
-    {
-        colliders.push_back(col);
-    }
 
+    template<typename T, typename... Args>
+    T* Create(GameObject* parent, Args&&... args)
+    {
+        static_assert(std::is_base_of<BaseCollider, T>::value,
+            "T must derive from BaseCollider –ó:‚±‚êBaseColliderŒp³‚µ‚Ä‚È‚¢‚æ...");
+
+        auto obj = std::make_unique<T>(std::forward<Args>(args)...);
+        T* ptr = obj.get();
+        parent->AddCollider(std::move(obj));
+        colliders.push_back(ptr);
+
+        return ptr;
+    }
 
 	// “o˜^‰ğœŠÖ” Scene‚ÌKIll‚Å•K‚¸–ˆƒtƒŒ[ƒ€ŒÄ‚Ô.
 	void DestroyedColliderCheck()
@@ -42,7 +51,7 @@ public:
 
     // Õ“Ë”»’è
     void CheckAllCollisions();
-#ifdef DEBUG
+#if DEBUG
     void DebugDraw();
 #endif 
 
