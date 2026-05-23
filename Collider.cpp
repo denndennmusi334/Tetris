@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Collider.h"
 
 #if DEBUG
@@ -18,11 +18,11 @@ void CapsuleCollider::DebugDraw()
     auto top = CapsuleTop();
     auto bottom = CapsuleBottom();
 
-    // ã‰º‚Ì‰~
+    // ä¸Šä¸‹ã®å††
     DrawCircleAA(top.x, top.y, radius, 32, GetColor(255, 0, 0), FALSE);
     DrawCircleAA(bottom.x, bottom.y, radius, 32, GetColor(255, 0, 0), FALSE);
 
-    // ’†‰›‚Ì‹éŒ`
+    // ä¸­å¤®ã®çŸ©å½¢
     DrawBoxAA(
         center.x - radius, center.y - halfHeight,
         center.x + radius, center.y + halfHeight,

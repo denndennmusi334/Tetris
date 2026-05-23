@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "Job.h"
 #include "Camera.h"
 #include "ImageLoadManager.h"
 #include "Animator.h"
 
-//•`‰æ‚ÌŠî’êƒNƒ‰ƒX.
+//æç”»ã®åŸºåº•ã‚¯ãƒ©ã‚¹.
 class Drawable :
     public Job
 {
@@ -25,7 +25,7 @@ public:
     std::function<void()> onLayerChanged;
     void SetDrawLayer(int _drawLayer) {
         drawLayer = _drawLayer;
-		assert(onLayerChanged && "onLayerChanged ‚Ì’†g‚ª‚È‚¢‚æ.");
+		assert(onLayerChanged && "onLayerChanged ã®ä¸­èº«ãŒãªã„ã‚ˆ.");
         if (onLayerChanged)
             onLayerChanged();
     }

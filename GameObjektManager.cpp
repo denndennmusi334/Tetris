@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "GameObjectManager.h"
 
 void GameObjectManager::Destroy(GameObject* obj)
@@ -17,12 +17,12 @@ void GameObjectManager::Update()
         {
             objects.push_back(std::move(newObj));
         }
-        addBuffer.clear(); // ‘Ò‹@•”‰®‚ğ‹ó‚É‚·‚é
+        addBuffer.clear(); // å¾…æ©Ÿéƒ¨å±‹ã‚’ç©ºã«ã™ã‚‹
     }
 }
 
 
 void GameObjectManager::Clear()
 {
-    objects.clear(); // unique_ptr ‚È‚Ì‚ÅˆêŠ‡‰ğ•ú
+    objects.clear(); // unique_ptr ãªã®ã§ä¸€æ‹¬è§£æ”¾
 }

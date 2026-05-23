@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Block.h"
 
 using namespace MyStd;
@@ -28,11 +28,6 @@ void Block::Draw(const Camera& camera)
 	//animator.Draw();
 }
 
-void Block::Break()
-{
-	//ƒuƒƒbƒN‚ª‰ó‚ê‚é‚Æ‚«‚Ìˆ—.
-	isBreaking = true;
-}
 
 void Block::SetGridPosition(const Vec2i& pos)
 {

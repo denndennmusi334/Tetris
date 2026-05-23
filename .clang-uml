@@ -1,0 +1,17 @@
+compilation_database_dir: build
+
+output_directory: diagrams
+
+diagrams:
+  tetris_class:
+    type: class
+
+    glob:
+      - "*.cpp"
+      - "*.h"
+
+    exclude:
+      paths:
+        - "stdafx.h"
+        - "C:/DxLib"
+        - "Game.cpp"

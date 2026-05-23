@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Block.h"
 
 enum class RotateState
@@ -39,7 +39,7 @@ public:
 	Tetromino();
 	Tetromino(MinoType type);
 	~Tetromino();
-#pragma region inlineŠÖ”
+#pragma region inlineé–¢æ•°
 
 
 	MinoType GetType() const { return type; }
@@ -74,7 +74,7 @@ public:
 	}
 #pragma endregion
 
-#pragma region ‰ñ“].
+#pragma region å›è»¢.
 	void RotateRightRaw();
 	void RotateLeftRaw();
 #pragma endregion

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Job.h"
 #include "Block.h"
 #include "Tetromino.h"

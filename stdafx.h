@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #define NOMINMAX
 #define _CRT_SECURE_NO_WARNINGS
 #define _USE_MATH_DEFINES
@@ -22,7 +22,7 @@
 
 
 #include "DxLib.h"
-//©ìƒwƒbƒ_[.
+//è‡ªä½œãƒ˜ãƒƒãƒ€ãƒ¼.
 #include "Vector.h"
 #include "Config.h"
 #include "Mystd.h"

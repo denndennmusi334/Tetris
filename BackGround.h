@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "GameObject.h"
 #include "BackGroundStar.h"
 
@@ -10,8 +10,10 @@ private:
 	Animation* starIdleAnim = nullptr;
 	Animation* starDestroyAnim = nullptr;
 
-	float spawnTimer = 0.0f;       // Œ»ÝŒo‰ß‚µ‚½ŽžŠÔi•bj
-	const float SPAWN_INTERVAL = 0.5f; // š ¯‚ðo‚·ŠÔŠui—áF0.5•b‚É1ŒÂƒ|ƒRƒ|ƒRo‚·j
+	float spawnTimer = 0.0f;      
+	const float SPAWN_INTERVAL = 0.5f;
+
+	BackGroundStar* mouseStar = nullptr;
 public:
 
 	void CreateAnimation();
@@ -26,6 +28,10 @@ public:
 				stars[i] = nullptr;
 			}
 		}
+		if (mouseStar->IsDestroyed()) {
+			mouseStar = nullptr;
+		}
+
 	}
 
 	void AllDestroy()

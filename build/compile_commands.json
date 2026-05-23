@@ -1,0 +1,164 @@
+[
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\Animator.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\Animator.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/Animator.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/Animator.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\BackGround.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\BackGround.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/BackGround.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/BackGround.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\BackGroundStar.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\BackGroundStar.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/BackGroundStar.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/BackGroundStar.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\BaseCollider.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\BaseCollider.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/BaseCollider.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/BaseCollider.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\BaseCommandBox.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\BaseCommandBox.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/BaseCommandBox.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/BaseCommandBox.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\BaseScene.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\BaseScene.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/BaseScene.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/BaseScene.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\Block.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\Block.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/Block.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/Block.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\Camera.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\Camera.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/Camera.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/Camera.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\Collider.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\Collider.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/Collider.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/Collider.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\ColliderManager.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\ColliderManager.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/ColliderManager.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/ColliderManager.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\DrawManager.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\DrawManager.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/DrawManager.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/DrawManager.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\Drawable.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\Drawable.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/Drawable.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/Drawable.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\Game.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\Game.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/Game.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/Game.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\GameMap.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\GameMap.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/GameMap.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/GameMap.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\GameObject.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\GameObject.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/GameObject.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/GameObject.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\GameObjektManager.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\GameObjektManager.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/GameObjektManager.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/GameObjektManager.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\GameScene.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\GameScene.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/GameScene.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/GameScene.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\ImageLoadManager.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\ImageLoadManager.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/ImageLoadManager.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/ImageLoadManager.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\InputManager.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\InputManager.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/InputManager.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/InputManager.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\Job.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\Job.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/Job.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/Job.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\Main.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\Main.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/Main.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/Main.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\MinoManager.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\MinoManager.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/MinoManager.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/MinoManager.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\SceneController.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\SceneController.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/SceneController.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/SceneController.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\SceneManager.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\SceneManager.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/SceneManager.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/SceneManager.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\Tetromino.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\Tetromino.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/Tetromino.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/Tetromino.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\TimeManager.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\TimeManager.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/TimeManager.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/TimeManager.cpp.obj"
+},
+{
+  "directory": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build",
+  "command": "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1443~1.348\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -IC:\\DxLib /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\Tetris.dir\\stdafx.cpp.obj /FdCMakeFiles\\Tetris.dir\\ /FS -c C:\\Users\\ydauser01\\Documents\\C++GameMeMade\\Tetris\\stdafx.cpp",
+  "file": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/stdafx.cpp",
+  "output": "C:/Users/ydauser01/Documents/C++GameMeMade/Tetris/build/CMakeFiles/Tetris.dir/stdafx.cpp.obj"
+}
+]

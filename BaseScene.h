@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Job.h"
 #include "SceneController.h"
@@ -14,10 +14,10 @@ protected:
 public:
     BaseScene(SceneController* changer);
     ~BaseScene()        override {};
-    void Initialize()   override {}; //‰Šú‰».
-    void Finalize()     override {}; //I—¹ˆ—.
-    void Update()       override {}; //XV.
-    void Draw()         override {}; //•`‰æ.
+    void Initialize()   override {}; //åˆæœŸåŒ–.
+    void Finalize()     override {}; //çµ‚äº†å‡¦ç†.
+    void Update()       override {}; //æ›´æ–°.
+    void Draw()         override {}; //æç”».
     virtual void Kill() = 0;
 
     void AddDrawable(Drawable* obj)

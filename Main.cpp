@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Game.h"
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int)
 {

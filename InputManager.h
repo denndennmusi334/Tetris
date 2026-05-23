@@ -53,6 +53,8 @@ public:
     // 位置
     int getMouseX() const { return mouseX; }
     int getMouseY() const { return mouseY; }
+	Vec2i GetMousePosition() const { return Vec2i{ mouseX, mouseY }; }
+    Vec2f GetMousePositionF() const { return Vec2f{ MyStd::Cast<float>(mouseX), MyStd::Cast<float>(mouseY) }; }
 
     // ボタン Press
     bool isMousePressLeft()   const { return mouseButtons[0]; }

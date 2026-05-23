@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Job.h"
 
 enum class CommandType
@@ -7,8 +7,8 @@ enum class CommandType
 
     Attack,
 
-    OpenMagic, // u‚Ü‚Ù‚¤v‚ğŠJ‚­
-    Magic,     // –‚–@‚ğ‘I‘ğ‚µ‚½
+    OpenMagic, // ã€Œã¾ã»ã†ã€ã‚’é–‹ã
+    Magic,     // é­”æ³•ã‚’é¸æŠã—ãŸ
 
     Defend,
     Escape,

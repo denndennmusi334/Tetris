@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "BackGroundStar.h"
 #include "TimeManager.h"
 #include "ColliderManager.h"
@@ -22,7 +22,7 @@ void BackGroundStar::OnCollision(BaseCollider* other)
 
 	starPoss.push_back(info);
 
-	if (starPoss.size() > 2)
+	if (starPoss.size() > 5)
 	{
 		starPoss.erase(starPoss.begin());
 	}
@@ -42,7 +42,7 @@ BackGroundStar::~BackGroundStar()
 void BackGroundStar::Initialize()
 {
 	SetDrawLayer(-2);
-	ColliderManager::GetInstance().Create<CircleCollider>(this, Vec2f{ 0,0 }, 150.0f);
+	ColliderManager::GetInstance().Create<CircleCollider>(this, Vec2f{ 0,0 }, 50.0f);
 }
 
 void BackGroundStar::Update()

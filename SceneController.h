@@ -1,13 +1,13 @@
-#pragma once
+﻿#pragma once
 
 
 enum class SceneName
 {
-	GAME,    //�Q�[���V�[��.
+	GAME,    //ゲームシーン.
 
     COUNT,
 
-    BACK,    //��O�̃V�[���ɖ߂�.
+    BACK,    //一個前のシーンに戻る.
 
     INVALID = -1,
     BEGIN,

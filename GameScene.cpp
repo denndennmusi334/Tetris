@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "GameScene.h"
 #include "GameObjectManager.h"
 #include "ColliderManager.h"
@@ -38,7 +38,7 @@ void GameScene::Update()
 void GameScene::Draw()
 {
 	drawMgr.DrawAll(camera);
-	DrawString(Config::FIELD_X + Config::FIELD_PIXEL_W, 200, (L"SCORE: " + std::to_wstring(minoMgr.GetScore())).c_str(), GetColor(255, 255, 255));
+	DrawString(Config::FIELD_X + Config::FIELD_PIXEL_W, 200, ("SCORE: " + std::to_string(minoMgr.GetScore())).c_str(), GetColor(255, 255, 255));
 #if DEBUG
 	ColliderManager::GetInstance().DebugDraw();
 #endif
@@ -48,7 +48,7 @@ void GameScene::Kill()
 {
 	drawMgr.DestroyedDrawableCheck();
 	bg->Kill();
-
 	ColliderManager::GetInstance().DestroyedColliderCheck();
+
 	GameObjectManager::GetInstance().CheckDestroyedObjects();
 }

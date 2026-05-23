@@ -1,7 +1,8 @@
-#include "stdafx.h"
+Ôªø#include "stdafx.h"
 #include "BackGround.h"
 #include "GameObjectManager.h"
 #include "TimeManager.h"
+#include "InputManager.h"
 
 using namespace MyStd;
 
@@ -18,11 +19,19 @@ void BackGround::Initialize()
 {
 	SetDrawLayer(-1);
 	CreateAnimation();
+	mouseStar = GameObjectManager::GetInstance().Create<BackGroundStar>(Vec2f{ -100.0f, -100.0f }, Vec2f{ 0.0f, 0.0f }, 0.0f);
+	mouseStar->SetAnimation(starIdleAnim, starDestroyAnim);
 }
 
 void BackGround::Update()
 {
     spawnTimer += TimeManager::GetInstance().GetRawDeltaTime();
+
+	if (mouseStar == nullptr) {
+		mouseStar = GameObjectManager::GetInstance().Create<BackGroundStar>(Vec2f{ -100.0f, -100.0f }, Vec2f{ 0.0f, 0.0f }, 0.0f);
+        mouseStar->SetAnimation(starIdleAnim, starDestroyAnim);
+	}
+    mouseStar->SetPosition(InputManager::GetInstance().GetMousePositionF());
 
     if (spawnTimer >= SPAWN_INTERVAL)
     {
@@ -71,9 +80,16 @@ void BackGround::CreateAnimation()
 	starIdleAnim = new Animation();
 	starDestroyAnim = new Animation();
 
-    starIdleAnim->SetFrames({
-        MakeFrame(-1, { Circle({0.0f, 0.0f}, 3.0f, GetColor(255, 255, 255)) })
-        }, 100);
+    std::vector<Frame> idleShapes;
+    for (int i = 0; i < 15; i++)
+    {
+        idleShapes.push_back(MakeFrame(-1, { Circle({ 0.0f, 0.0f }, 3.0f, GetColor(255 - i * 10, 255 - i * 10, 255 - i * 10)) }));
+    }
+    for (int i = 15; i >= 0; i--)
+    {
+        idleShapes.push_back(MakeFrame(-1, { Circle({ 0.0f, 0.0f }, 3.0f, GetColor(255 - i * 10, 255 - i * 10, 255 - i * 10)) }));
+    }
+    starIdleAnim->SetFrames(idleShapes, 100);
 
     std::vector<Frame> destroyFrames;
     float size = 3.0f;
@@ -83,14 +99,14 @@ void BackGround::CreateAnimation()
         float d = Cast<float>(i * 2.0f); 
 
         std::vector<AnimShape> shapes = {
-            Circle({ 0.0f,    d }, size, GetColor(255, 255, 255)), // è„
-            Circle({    d,    d }, size, GetColor(255, 255, 255)), // âEè„
-            Circle({   -d,    d }, size, GetColor(255, 255, 255)), // ç∂è„
-            Circle({ 0.0f,   -d }, size, GetColor(255, 255, 255)), // â∫
-            Circle({    d,   -d }, size, GetColor(255, 255, 255)), // âEâ∫
-            Circle({   -d,   -d }, size, GetColor(255, 255, 255)), // ç∂â∫
-            Circle({    d, 0.0f }, size, GetColor(255, 255, 255)), // âE
-            Circle({   -d, 0.0f }, size, GetColor(255, 255, 255))  // ç∂
+            Circle({ 0.0f,    d }, size, GetColor(255, 255, 255)), // ‰∏ä
+            Circle({    d,    d }, size, GetColor(255, 255, 255)), // Âè≥‰∏ä
+            Circle({   -d,    d }, size, GetColor(255, 255, 255)), // Â∑¶‰∏ä
+            Circle({ 0.0f,   -d }, size, GetColor(255, 255, 255)), // ‰∏ã
+            Circle({    d,   -d }, size, GetColor(255, 255, 255)), // Âè≥‰∏ã
+            Circle({   -d,   -d }, size, GetColor(255, 255, 255)), // Â∑¶‰∏ã
+            Circle({    d, 0.0f }, size, GetColor(255, 255, 255)), // Âè≥
+            Circle({   -d, 0.0f }, size, GetColor(255, 255, 255))  // Â∑¶
         };
 
         destroyFrames.push_back(MakeFrame(-1, std::move(shapes)));

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "TimeManager.h"
 
 void TimeManager::SetStartTime()
@@ -16,7 +16,7 @@ BOOL TimeManager::UpdateTiming()
 
     us = GetNowHiPerformanceCount() - startTime;
 
-    if (us > 500000) // 0.5•bˆÈã
+    if (us > 500000) // 0.5ç§’ä»¥ä¸Š
     {
         SetStartTime();
         return FALSE;

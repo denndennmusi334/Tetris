@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "BaseCollider.h"
 #include "Drawable.h"
 
@@ -26,9 +26,9 @@ public:
 
 	void CreateAnimation() override {};
 
-    void Initialize()   override {}; //‰Šú‰».
-    void Finalize()     override {}; //I—¹ˆ—.
-    void Update()       override {}; //XV.
+    void Initialize()   override {}; //åˆæœŸåŒ–.
+    void Finalize()     override {}; //çµ‚äº†å‡¦ç†.
+    void Update()       override {}; //æ›´æ–°.
     void Draw(const Camera& camera) override {};
 
 };
