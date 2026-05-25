@@ -25,6 +25,7 @@
     <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="BaseCommandBox.cpp" />
     <ClCompile Include="BaseScene.cpp" />
+    <ClCompile Include="BattleManager.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="BaseCommandBox.h" />
     <ClInclude Include="BaseScene.h" />
+    <ClInclude Include="BattleManager.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />

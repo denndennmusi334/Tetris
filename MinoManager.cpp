@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "GameObjectManager.h"
 #include "TimeManager.h"
+#include "BattleManager.h"
 
 using namespace MyStd;
 
@@ -19,9 +20,12 @@ MinoManager::~MinoManager()
 void MinoManager::Initialize()
 {
 	RefillBag();
-	currentMino = GameObjectManager::GetInstance().Create<Tetromino>(GetNextType());
+	currentMino = GameObjectManager::GetInstance().Create<Tetromino>(GetNextType(), boardOrigin);
+	currentMino->SetGridPosition(Vec2i{ 5, 0 }); //フィールドの中央上部にミノを表示するための位置.
 
-	nextMino = GameObjectManager::GetInstance().Create<Tetromino>(GetNextType());
+	ghostMino = GameObjectManager::GetInstance().Create<Tetromino>(currentMino->GetType(), boardOrigin, DrawType::Ghost);
+
+	nextMino = GameObjectManager::GetInstance().Create<Tetromino>(GetNextType(), boardOrigin);
 	nextMino->SetGridPosition(Vec2i{ Config::FIELD_WIDTH + 2, 2 }); //フィールドの右側に次のミノを表示するための位置.
 
 	gameMap = std::make_unique<GameMap>();
@@ -38,6 +42,7 @@ void MinoManager::Finalize()
 void MinoManager::Update()
 {
 	MinoUpdate();
+	GhostUpdate();
 }
 
 void MinoManager::Draw(const Camera& camera)
@@ -50,41 +55,41 @@ void MinoManager::MinoUpdate()
 
 	auto& input = InputManager::GetInstance();
 	auto Gpos = currentMino->GetGridPosition();
-	if (input.isTrigger(KEY_INPUT_E))
+	if (input.IsTrigger(KEY_INPUT_E))
 	{
 		lockTimer = 0.0f;
 		TryRotateRight();
 		lastActionIsRotate = true;
 	}
-	else if (input.isTrigger(KEY_INPUT_Q))
+	else if (input.IsTrigger(KEY_INPUT_Q))
 	{
 		lockTimer = 0.0f;
 		TryRotateLeft();
 		lastActionIsRotate = true;
 	}
-	else if (input.isTrigger(KEY_INPUT_A))
+	else if (input.IsTrigger(KEY_INPUT_A) || input.IsRepeat(KEY_INPUT_A, 8, 2))
 	{
 		lockTimer = 0.0f;
 		TestMino(Vec2i(-1, 0));
 		lastActionIsRotate = false;
 	}
-	else if (input.isTrigger(KEY_INPUT_D))
+	else if (input.IsTrigger(KEY_INPUT_D) || input.IsRepeat(KEY_INPUT_D, 8, 2))
 	{
 		lockTimer = 0.0f;
 		TestMino(Vec2i(1, 0));
 		lastActionIsRotate = false;
 	}
-	else if (input.isTrigger(KEY_INPUT_S))
+	else if (input.IsTrigger(KEY_INPUT_S) || input.IsRepeat(KEY_INPUT_S, 8, 2))
 	{
 		lockTimer = 0.0f;
 		TestMino(Vec2i(0, 1));
 		lastActionIsRotate = false;
 	}
-	else if (input.isTrigger(KEY_INPUT_SPACE))
+	else if (input.IsTrigger(KEY_INPUT_SPACE))
 	{
 		HardDrop();
 	}
-	else if (input.isTrigger(KEY_INPUT_LSHIFT))
+	else if (input.IsTrigger(KEY_INPUT_LSHIFT))
 	{
 		TryHold();
 	}
@@ -117,6 +122,18 @@ void MinoManager::MinoUpdate()
 
 }
 
+void MinoManager::GhostUpdate()
+{
+	if (isGameOver)return;
+	ghostMino->CopyTransFrom(*currentMino);
+	Vec2i pos = ghostMino->GetGridPosition();
+	while (IsMoveValid(pos + Vec2i(0, 1)))
+	{
+		pos.y += 1;
+	}
+	ghostMino->SetGridPosition(pos);
+}
+
 void MinoManager::TryHold()
 {
 	if (hasHeldInThisTurn) return;
@@ -130,7 +147,7 @@ void MinoManager::TryHold()
 		currentMino = nextMino;
 		currentMino->SetGridPosition(Vec2i{ 5, 0 });
 
-		nextMino = GameObjectManager::GetInstance().Create<Tetromino>(GetNextType());
+		nextMino = GameObjectManager::GetInstance().Create<Tetromino>(GetNextType(), boardOrigin);
 		nextMino->SetGridPosition(Vec2i{ Config::FIELD_WIDTH + 2, 2 });
 	}
 	else
@@ -226,9 +243,15 @@ void MinoManager::LockMino()
 
 	AddScore(clearedLines, isTspin, isMini);
 
+	int attack =
+		CalculateAttack(clearedLines, isTspin, isMini);
+	
+	BattleManager::GetInstance().SendGarbage(playerNumber, attack);
+	BattleManager::GetInstance().ApplyReadyGarbage(playerNumber);
+
 	nextMino->SetGridPosition(Vec2i{ 5, 0 });
 	currentMino = nextMino;
-	nextMino = GameObjectManager::GetInstance().Create<Tetromino>(GetNextType());
+	nextMino = GameObjectManager::GetInstance().Create<Tetromino>(GetNextType(), boardOrigin);
 	nextMino->SetGridPosition(Vec2i{ Config::FIELD_WIDTH + 2, 2 });
 
 	if (!IsMoveValid(currentMino->GetGridPosition())) { isGameOver = true; }
@@ -617,6 +640,7 @@ bool MinoManager::CheckTSpinCondition(int& outCornerCount, bool& outIsMini)
 
 	return false;
 }
+
 void MinoManager::AddScore(int lineCount, bool isTspin, bool isMini)
 {
 	int baseScore = 0;
@@ -673,4 +697,32 @@ void MinoManager::UpdateFallInterval()
 	if (tableIndex > 15) tableIndex = 15;
 
 	fallInterval = SPEED_TABLE[tableIndex];
+}
+
+int MinoManager::CalculateAttack(int lineCount, bool isTSpin, bool isMini)
+{
+	if (isTSpin)
+	{
+		if (lineCount == 1) return 2;
+		if (lineCount == 2) return 4;
+		if (lineCount == 3) return 6;
+	}
+
+	switch (lineCount)
+	{
+	case 1: return 0;
+	case 2: return 1;
+	case 3: return 2;
+	case 4: return 4;
+	}
+
+	return 0;
+}
+
+void MinoManager::ApplyGarbage(int amount)
+{
+	for (int i = 0; i < amount; i++)
+	{
+		gameMap->AddGarbageLine(boardOrigin);
+	}
 }

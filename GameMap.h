@@ -9,6 +9,8 @@ class GameMap :
 private:
 	Block* map[Config::FIELD_WIDTH][Config::FIELD_HEIGHT] = { nullptr };
 	int score = 0;
+
+	int garbageHoleX = 0;
 public:
 	GameMap();
 	~GameMap();
@@ -31,6 +33,8 @@ public:
 		}
 		return map[pos.x][pos.y];
 	}
+
+	void AddGarbageLine(Vec2f boardVec);
 
 	void Initialize() override;
 	void Finalize() override;

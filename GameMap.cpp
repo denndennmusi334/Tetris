@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "GameMap.h"
+#include "GameObjectManager.h"
 
 GameMap::GameMap()
 {
@@ -86,4 +87,54 @@ void GameMap::SetBlock(Tetromino* mino)
 		map[pos.x][pos.y] = mino->GetBlock(i);
 	}
 	mino->Destroy();
+}
+
+void GameMap::AddGarbageLine(Vec2f boardVec)
+{
+	if (MyStd::IRange(0, 100) < 30)
+	{
+		garbageHoleX = MyStd::IRange(0, Config::FIELD_WIDTH - 1);
+	}
+	for (int y = 0;y < Config::FIELD_HEIGHT - 1;y++)
+	{
+		for (int x = 0;
+			x < Config::FIELD_WIDTH;
+			x++)
+		{
+			map[x][y] = map[x][y + 1];
+
+			if (map[x][y] != nullptr)
+			{
+				map[x][y]->SetGridPosition(
+					Vec2i{ x, y });
+			}
+
+		}
+	}
+
+	for (int x = 0;
+		x < Config::FIELD_WIDTH;
+		x++)
+	{
+		if (x == garbageHoleX)
+		{
+			map[x][Config::FIELD_HEIGHT - 1] = nullptr;
+		}
+		else
+		{
+			auto* block =
+				GameObjectManager::GetInstance()
+				.Create<Block>(
+					BlockColor::YELLOW,
+					DrawType::Normal,
+					boardVec);
+
+			block->SetGridPosition(
+				Vec2i{x, Config::FIELD_HEIGHT - 1
+				});
+
+			map[x][Config::FIELD_HEIGHT - 1]
+				= block;
+		}
+	}
 }

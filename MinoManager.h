@@ -1,10 +1,31 @@
 ﻿#pragma once
 #include "MinoManager.h"
 #include "GameMap.h"
+
+enum class MinoAction
+{
+	MoveLeft,
+	MoveRight,
+	SoftDrop,
+	HardDrop,
+	RotateRight,
+	RotateLeft,
+	Hold
+};
+
+enum class PlayerNumber
+{
+	Player1,
+	Player2
+};
+
 class MinoManager
 {
 private:
+	PlayerNumber playerNumber = PlayerNumber::Player1;
+
 	Tetromino* currentMino = nullptr;
+	Tetromino* ghostMino = nullptr;
 	Tetromino* nextMino = nullptr;
 	std::unique_ptr<GameMap> gameMap = nullptr;
 
@@ -49,12 +70,14 @@ private:
 	MinoType holdMinoType = MinoType::None;
 	bool hasHeldInThisTurn = false; // ホールドは1ターンに1回までなので、そのフラグ.
 	Tetromino* holdMinoVisual = nullptr;
-
+	Vec2f boardOrigin = { Config::FIELD_X, Config::FIELD_Y };
 
 #pragma region private関数
 	bool IsMoveValid(const Vec2i& newPos) const; //ミノを移動させる前に、その移動が有効かどうかをチェックする関数.
 
 	void MinoUpdate();
+	void GhostUpdate();
+
 	void HardDrop();
 
 	void TryRotateRight();
@@ -74,6 +97,7 @@ private:
 
 	void UpdateFallInterval();
 
+	int CalculateAttack(int lineCount, bool isTSpin, bool isMini);
 
 #pragma endregion
 public:
@@ -84,9 +108,14 @@ public:
 	void Update();
 	void Draw(const Camera& camera);
 
+	void SetBoardPosition(const Vec2f& pos) { boardOrigin = pos; }
+	void SetPlayerNumber(PlayerNumber num) { playerNumber = num; }
+
 	bool IsGameOver() const { return isGameOver; }
 
 	int GetScore() const { return score; }
+
+	void ApplyGarbage(int amount);
 
 	bool IsEffectPlaying() { 
 		bool is = isEffectPlaying;

@@ -3,6 +3,7 @@
 #include "GameObjectManager.h"
 #include "ColliderManager.h"
 #include "InputManager.h"
+#include "BattleManager.h"
 
 GameScene::GameScene(SceneController* sceneController) : BaseScene(sceneController)
 {
@@ -14,7 +15,8 @@ GameScene::~GameScene()
 
 void GameScene::Initialize()
 {
-	minoMgr.Initialize();
+	BattleManager::GetInstance().SetBattleMode(BattleMode::Double);
+	BattleManager::GetInstance().Initialize();
 	bg = GameObjectManager::GetInstance().Create<BackGround>();
 }
 
@@ -24,7 +26,7 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
-	minoMgr.Update();
+	BattleManager::BattleManager::GetInstance().Update();
 	GameObjectManager::GetInstance().Update();
 
 	if (minoMgr.IsEffectPlaying())

@@ -19,6 +19,7 @@
 #include <functional>
 #include <chrono>
 #include <variant>
+#include <queue>
 
 
 #include "DxLib.h"

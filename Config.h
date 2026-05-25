@@ -2,8 +2,8 @@
 
 namespace Config
 {
-    constexpr int SCREEN_WIDTH = 1280;
-    constexpr int SCREEN_HEIGHT = 720;
+    constexpr int SCREEN_WIDTH = 1440;
+    constexpr int SCREEN_HEIGHT = 810;
 
     constexpr int SCREEN_FPS = 60;
 

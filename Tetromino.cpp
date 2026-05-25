@@ -8,8 +8,8 @@ Tetromino::Tetromino()
 {
 }
 
-Tetromino::Tetromino(MinoType _type)
-	: type(_type)
+Tetromino::Tetromino(MinoType _type,Vec2f boardVec, DrawType drawType)
+	: type(_type), drawType(drawType), boardOrigin(boardVec)
 {
 }
 
@@ -24,7 +24,7 @@ void Tetromino::Initialize()
 
 	for (int i = 0; i < 4; ++i)
 	{
-		blocks[i] = GameObjectManager::GetInstance().Create<Block>(SetColor(type));
+		blocks[i] = GameObjectManager::GetInstance().Create<Block>(SetColor(type), drawType, boardOrigin);
 		blocks[i]->SetGridPosition(GetBlockGridPosition(i));
 	}
 
