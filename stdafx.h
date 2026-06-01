@@ -20,7 +20,7 @@
 #include <chrono>
 #include <variant>
 #include <queue>
-
+#include <ixwebsocket/IXWebSocket.h>
 
 #include "DxLib.h"
 //自作ヘッダー.

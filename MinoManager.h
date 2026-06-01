@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include "MinoManager.h"
 #include "GameMap.h"
+#include "TetrisInput.h"
+
+#pragma region enum.
 
 enum class MinoAction
 {
@@ -17,12 +20,20 @@ enum class PlayerNumber
 {
 	Player1,
 	Player2
-};
+}; 
+
+#pragma endregion
 
 class MinoManager
 {
 private:
 	PlayerNumber playerNumber = PlayerNumber::Player1;
+
+	TetrisInput* input = nullptr;
+
+	int ren = -1;
+
+	bool backToBack = false;
 
 	Tetromino* currentMino = nullptr;
 	Tetromino* ghostMino = nullptr;
@@ -88,7 +99,7 @@ private:
 	void RefillBag(); //テトリスの7種のミノをランダムに並べた袋をリフィルする関数.
 	MinoType GetNextType(); //次のミノの種類をbagから取得する関数.
 
-	void TestMino(const Vec2i& newPos) const; //ミノを移動させる前に、その移動が有効かどうかをチェックする関数.テスト用.
+	void TestMino(const Vec2i& newPos, bool* isRotate) const; //ミノを移動させる前に、その移動が有効かどうかをチェックする関数.テスト用.
 
 	void AddScore(int lineCount, bool isTspin, bool isMini);
 	bool CheckTSpinCondition(int& outCornerCount, bool& outIsMini);
@@ -98,6 +109,8 @@ private:
 	void UpdateFallInterval();
 
 	int CalculateAttack(int lineCount, bool isTSpin, bool isMini);
+
+	bool IsCornerFilled(const Vec2i& pos) const;
 
 #pragma endregion
 public:
@@ -116,6 +129,10 @@ public:
 	int GetScore() const { return score; }
 
 	void ApplyGarbage(int amount);
+
+	void SetTetrisInput(TetrisInput* setInput) {
+		input = setInput;
+	}
 
 	bool IsEffectPlaying() { 
 		bool is = isEffectPlaying;

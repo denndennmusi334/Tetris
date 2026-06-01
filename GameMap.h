@@ -11,6 +11,7 @@ private:
 	int score = 0;
 
 	int garbageHoleX = 0;
+	int garbageHoleCounter = 0;
 public:
 	GameMap();
 	~GameMap();

@@ -10,6 +10,7 @@ enum E_TEXTURE
     BLOCK_GREEN,
     BLOCK_PURPLE,
     BLOCK_RED,
+    BLOCK_WHITE,
 
 	TEX_COUNT
 };
@@ -32,7 +33,7 @@ public:
     void Update() override {};
 	void Draw() override {};
 
-    int getGraphHandle(E_TEXTURE tex) { return grHandle[tex]; }
+    int GetGraphHandle(E_TEXTURE tex) { return grHandle[tex]; }
 
     static ImageLoadManager& GetInstance() {
         static ImageLoadManager instance;

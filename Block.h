@@ -10,6 +10,7 @@ enum class BlockColor
 	GREEN,
 	PURPLE,
 	RED,
+	WHITE,
 
 	COLOR_NULL,
 };

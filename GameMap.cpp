@@ -91,10 +91,17 @@ void GameMap::SetBlock(Tetromino* mino)
 
 void GameMap::AddGarbageLine(Vec2f boardVec)
 {
-	if (MyStd::IRange(0, 100) < 30)
+
+	if (garbageHoleCounter <= 0)
 	{
-		garbageHoleX = MyStd::IRange(0, Config::FIELD_WIDTH - 1);
+		garbageHoleX =
+			MyStd::IRange(0, Config::FIELD_WIDTH - 1);
+
+		garbageHoleCounter =
+			MyStd::IRange(2, 5);
 	}
+	garbageHoleCounter--;
+
 	for (int y = 0;y < Config::FIELD_HEIGHT - 1;y++)
 	{
 		for (int x = 0;
@@ -124,10 +131,7 @@ void GameMap::AddGarbageLine(Vec2f boardVec)
 		{
 			auto* block =
 				GameObjectManager::GetInstance()
-				.Create<Block>(
-					BlockColor::YELLOW,
-					DrawType::Normal,
-					boardVec);
+				.Create<Block>(BlockColor::WHITE, DrawType::Normal, boardVec);
 
 			block->SetGridPosition(
 				Vec2i{x, Config::FIELD_HEIGHT - 1

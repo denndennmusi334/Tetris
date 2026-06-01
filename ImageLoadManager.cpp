@@ -16,7 +16,7 @@ void ImageLoadManager::Initialize()
 	}
 	*/
 
-	LoadDivGraph("Resources/Images/テトリス素材.png", 7, 7, 1, 32, 32, &grHandle[0]);
+	LoadDivGraph("Resources/Images/テトリス素材.png", 8, 8, 1, 32, 32, &grHandle[0]);
 }
 
 void ImageLoadManager::Finalize()

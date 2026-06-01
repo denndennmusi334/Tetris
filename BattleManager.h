@@ -1,10 +1,12 @@
 #pragma once
 #include "MinoManager.h"
+#include "TetrisInput.h"
 
 enum class BattleMode
 {
 	Single,
-	Double
+	Double,
+	Network
 };
 
 enum class ControlType
@@ -25,6 +27,8 @@ struct PlayerData
 {
 	std::unique_ptr<MinoManager> board;
 
+	std::unique_ptr<TetrisInput> input;
+
     std::queue<GarbageData> garbageQueue;
     int readyGarbage = 0;
 
@@ -39,7 +43,16 @@ private:
 	BattleMode mode = BattleMode::Single;
     ControlType controlType = ControlType::Human;
 
+    
+
     std::vector<Block*> preview[2];
+
+    void RefreshPreview(PlayerNumber num);
+
+	void SInitialize();
+	void DInitialize();
+	void NInitialize();
+
 public:
     BattleManager(const BattleManager&) = delete;
     BattleManager& operator=(const BattleManager&) = delete;

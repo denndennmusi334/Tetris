@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "MinoManager.h"
-#include "InputManager.h"
 #include "GameObjectManager.h"
 #include "TimeManager.h"
 #include "BattleManager.h"
@@ -53,51 +52,86 @@ void MinoManager::MinoUpdate()
 {
 	if (isGameOver)return;
 
-	auto& input = InputManager::GetInstance();
 	auto Gpos = currentMino->GetGridPosition();
-	if (input.IsTrigger(KEY_INPUT_E))
+	if (input->IsTrigger(TetrisAction::RotateRight))
 	{
 		lockTimer = 0.0f;
 		TryRotateRight();
 		lastActionIsRotate = true;
 	}
-	else if (input.IsTrigger(KEY_INPUT_Q))
+	else if (input->IsTrigger(TetrisAction::RotateLeft))
 	{
 		lockTimer = 0.0f;
 		TryRotateLeft();
 		lastActionIsRotate = true;
 	}
-	else if (input.IsTrigger(KEY_INPUT_A) || input.IsRepeat(KEY_INPUT_A, 8, 2))
+	else if (input->IsRepeat(TetrisAction::MoveLeft, 8, 2))
 	{
 		lockTimer = 0.0f;
-		TestMino(Vec2i(-1, 0));
-		lastActionIsRotate = false;
+		TestMino(Vec2i(-1, 0), &lastActionIsRotate);
 	}
-	else if (input.IsTrigger(KEY_INPUT_D) || input.IsRepeat(KEY_INPUT_D, 8, 2))
+	else if (input->IsRepeat(TetrisAction::MoveRight, 8, 2))
 	{
 		lockTimer = 0.0f;
-		TestMino(Vec2i(1, 0));
-		lastActionIsRotate = false;
+		TestMino(Vec2i(1, 0), &lastActionIsRotate);
 	}
-	else if (input.IsTrigger(KEY_INPUT_S) || input.IsRepeat(KEY_INPUT_S, 8, 2))
+	else if (input->IsRepeat(TetrisAction::SoftDrop, 8, 2))
 	{
 		lockTimer = 0.0f;
-		TestMino(Vec2i(0, 1));
-		lastActionIsRotate = false;
+		TestMino(Vec2i(0, 1), &lastActionIsRotate);
 	}
-	else if (input.IsTrigger(KEY_INPUT_SPACE))
+	else if (input->IsTrigger(TetrisAction::HardDrop))
 	{
 		HardDrop();
 	}
-	else if (input.IsTrigger(KEY_INPUT_LSHIFT))
+	else if (input->IsTrigger(TetrisAction::Hold))
 	{
 		TryHold();
 	}
 	
+
+#pragma region debug用
+	//if ((playerNumber == PlayerNumber::Player1 && input.IsTrigger(KEY_INPUT_E)) || (playerNumber == PlayerNumber::Player2 && input.IsTrigger(KEY_INPUT_NUMPAD9)))
+	//{
+	//	lockTimer = 0.0f;
+	//	TryRotateRight();
+	//	lastActionIsRotate = true;
+	//}
+	//else if ((playerNumber == PlayerNumber::Player1 && input.IsTrigger(KEY_INPUT_Q)) || (playerNumber == PlayerNumber::Player2 && input.IsTrigger(KEY_INPUT_NUMPAD7)))
+	//{
+	//	lockTimer = 0.0f;
+	//	TryRotateLeft();
+	//	lastActionIsRotate = true;
+	//}
+	//else if ((playerNumber == PlayerNumber::Player1 && input.IsRepeat(KEY_INPUT_A, 8, 2)) || (playerNumber == PlayerNumber::Player2 && input.IsRepeat(KEY_INPUT_NUMPAD4, 8, 2)))
+	//{
+	//	lockTimer = 0.0f;
+	//	TestMino(Vec2i(-1, 0), &lastActionIsRotate);
+	//}
+	//else if ((playerNumber == PlayerNumber::Player1 && input.IsRepeat(KEY_INPUT_D, 8, 2)) || (playerNumber == PlayerNumber::Player2 && input.IsRepeat(KEY_INPUT_NUMPAD6, 8, 2)))
+	//{
+	//	lockTimer = 0.0f;
+	//	TestMino(Vec2i(1, 0), &lastActionIsRotate);
+	//}
+	//else if ((playerNumber == PlayerNumber::Player1 && input.IsRepeat(KEY_INPUT_S, 8, 2)) || (playerNumber == PlayerNumber::Player2 && input.IsRepeat(KEY_INPUT_NUMPAD5, 8, 2)))
+	//{
+	//	lockTimer = 0.0f;
+	//	TestMino(Vec2i(0, 1), &lastActionIsRotate);
+	//}
+	//else if ((playerNumber == PlayerNumber::Player1 && input.IsTrigger(KEY_INPUT_SPACE)) || (playerNumber == PlayerNumber::Player2 && input.IsTrigger(KEY_INPUT_NUMPAD0)))
+	//{
+	//	HardDrop();
+	//}
+	//else if ((playerNumber == PlayerNumber::Player1 && input.IsTrigger(KEY_INPUT_LSHIFT)) || (playerNumber == PlayerNumber::Player2 && input.IsTrigger(KEY_INPUT_RETURN)))
+	//{
+	//	TryHold();
+	//}
+
+#pragma endregion
+
 	if (fallTimer >= fallInterval)
 	{
-		TestMino(Vec2i(0, 1));
-		lastActionIsRotate = false;
+		TestMino(Vec2i(0, 1), &lastActionIsRotate);
 		fallTimer = 0.0;
 	}
 	else
@@ -170,12 +204,15 @@ void MinoManager::TryHold()
 	lockTimer = 0.0f;
 }
 
-void MinoManager::TestMino(const Vec2i& newPos) const
+void MinoManager::TestMino(const Vec2i& newPos, bool* isRotate) const
 {
 	Vec2i testPos = currentMino->GetGridPosition() + newPos;
-	if (IsMoveValid(testPos)) currentMino->SetGridPosition(testPos);
+	if (IsMoveValid(testPos))
+	{ 
+		currentMino->SetGridPosition(testPos);
+		*isRotate = false;
+	}
 }
-
 void MinoManager::RefillBag()
 {
 	bag =
@@ -596,51 +633,123 @@ bool MinoManager::IsMoveValid(const Vec2i& newPos) const
 
 bool MinoManager::CheckTSpinCondition(int& outCornerCount, bool& outIsMini)
 {
-	if (currentMino->GetType() != MinoType::T) return false;
+	if (currentMino->GetType() != MinoType::T)
+	{
+		return false;
+	}
 
-	if (!lastActionIsRotate) return false;
+	if (!lastActionIsRotate)
+	{
+		return false;
+	}
 
-	Vec2i center = currentMino->GetGridPosition(); 
+	Vec2i center = currentMino->GetGridPosition();
 
-	Vec2i corners[4] = {
-		{ -1, -1 }, { 1, -1 },  // 左上、右上
-		{ -1,  1 }, { 1,  1 }   // 左下、右下
+	Vec2i corners[4] =
+	{
+		{-1,-1},
+		{ 1,-1},
+		{-1, 1},
+		{ 1, 1}
 	};
 
 	int blockCount = 0;
-	for (const auto& offset : corners)
-	{
-		Vec2i world = center + offset;
 
-		if (world.x < 0 || world.x >= Config::FIELD_WIDTH || world.y >= Config::FIELD_HEIGHT)
-		{
-			blockCount++;
-		}
-		else if (world.y >= 0 && gameMap->GetBlock(world) != nullptr)
+	for (auto& offset : corners)
+	{
+		Vec2i world =
+			center + offset;
+
+		if (IsCornerFilled(world))
 		{
 			blockCount++;
 		}
 	}
 
-	if (blockCount >= 3)
+	if (blockCount < 3)
 	{
-		outCornerCount = blockCount;
+		return false;
+	}
 
+	//--------------------------------
+	// front corner
+	//--------------------------------
 
-		if (lastKickIndex == 3 || lastKickIndex == 4)
+	static constexpr Vec2i frontCorners[4][2] =
+	{
+		// UP
 		{
-			outIsMini = false; 
-		}
-		else
+			{-1,-1},
+			{ 1,-1}
+		},
+
+		// RIGHT
 		{
-			outIsMini = true;
+			{1,-1},
+			{1, 1}
+		},
+
+		// DOWN
+		{
+			{-1,1},
+			{ 1,1}
+		},
+
+		// LEFT
+		{
+			{-1,-1},
+			{-1, 1}
 		}
+	};
+
+	RotateState rot =
+		currentMino->GetRotateState();
+
+	int frontCount = 0;
+
+	for (int i = 0; i < 2; i++)
+	{
+		Vec2i world =
+			center
+			+ frontCorners[(int)rot][i];
+
+		if (IsCornerFilled(world))
+		{
+			frontCount++;
+		}
+	}
+
+	bool proper =
+		(frontCount == 2)
+		|| (lastKickIndex == 3)
+		|| (lastKickIndex == 4);
+
+	outIsMini = !proper;
+
+	outCornerCount = blockCount;
+
+	return true;
+}
+
+bool MinoManager::IsCornerFilled(const Vec2i& pos) const
+{
+	// 壁・床
+	if (pos.x < 0
+		|| pos.x >= Config::FIELD_WIDTH
+		|| pos.y >= Config::FIELD_HEIGHT)
+	{
 		return true;
 	}
 
-	return false;
-}
+	// 上側は空扱い
+	if (pos.y < 0)
+	{
+		return false;
+	}
 
+	// 固定ブロック
+	return gameMap->GetBlock(pos) != nullptr;
+}
 void MinoManager::AddScore(int lineCount, bool isTspin, bool isMini)
 {
 	int baseScore = 0;
@@ -699,24 +808,91 @@ void MinoManager::UpdateFallInterval()
 	fallInterval = SPEED_TABLE[tableIndex];
 }
 
-int MinoManager::CalculateAttack(int lineCount, bool isTSpin, bool isMini)
+int MinoManager::CalculateAttack(int lineCount, bool isTspin, bool isMini)
 {
-	if (isTSpin)
+	int attack = 0;
+
+	// TSpin
+	if (isTspin)
 	{
-		if (lineCount == 1) return 2;
-		if (lineCount == 2) return 4;
-		if (lineCount == 3) return 6;
+		if (isMini)
+		{
+			if (lineCount == 1)
+			{
+				attack = 1;
+			}
+		}
+		else
+		{
+			switch (lineCount)
+			{
+			case 1:
+				attack = 2; 
+				break;
+			case 2:
+				attack = 4;
+				break;
+			case 3:
+				attack = 6;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	else
+	{
+		switch (lineCount)
+		{
+		case 2:
+			attack = 1;
+			break;
+		case 3:
+			attack = 2;
+			break;
+		case 4:
+			attack = 4;
+			break;
+		default:
+			break;
+		}
 	}
 
-	switch (lineCount)
+	//B2B(強い攻撃の二連続).
+	bool isB2BAction =
+		(lineCount == 4)
+		|| (isTspin && lineCount > 0);
+
+	if (isB2BAction)
 	{
-	case 1: return 0;
-	case 2: return 1;
-	case 3: return 2;
-	case 4: return 4;
+		if (backToBack)
+		{
+			attack += 1;
+		}
+
+		backToBack = true;
+	}
+	else if (lineCount > 0)
+	{
+		backToBack = false;
 	}
 
-	return 0;
+	//連続消しでの攻撃力増加.
+	if (lineCount > 0)
+	{
+		ren++;
+
+		if (ren >= 1)
+		{
+			attack += ren / 2;
+		}
+	}
+	else
+	{
+		ren = -1;
+	}
+
+	return attack;
 }
 
 void MinoManager::ApplyGarbage(int amount)

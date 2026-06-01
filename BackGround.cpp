@@ -71,7 +71,8 @@ void BackGround::Update()
 void BackGround::Draw(const Camera& camera)
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 155);
-	DrawBox(Config::FIELD_X, 0, Config::FIELD_X + Config::FIELD_PIXEL_W, Config::FIELD_Y + Config::FIELD_PIXEL_H + 24, GetColor(50, 50, 150), true);
+	DrawBox(200, 64, 200 + Config::FIELD_PIXEL_W, Config::FIELD_Y + Config::FIELD_PIXEL_H + 24 + 64, GetColor(50, 50, 150), true);
+    DrawBox(Config::SCREEN_WIDTH / 2 + 200, 64, Config::SCREEN_WIDTH / 2 + 200 + Config::FIELD_PIXEL_W, Config::FIELD_Y + Config::FIELD_PIXEL_H + 24 + 64, GetColor(50, 50, 150), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 }
 
@@ -94,19 +95,21 @@ void BackGround::CreateAnimation()
     std::vector<Frame> destroyFrames;
     float size = 3.0f;
 
+	unsigned int color = GetColor(255, 255, 255);
+
     for (int i = 1; i <= 100; ++i)
     {
         float d = Cast<float>(i * 2.0f); 
 
         std::vector<AnimShape> shapes = {
-            Circle({ 0.0f,    d }, size, GetColor(255, 255, 255)), // 上
-            Circle({    d,    d }, size, GetColor(255, 255, 255)), // 右上
-            Circle({   -d,    d }, size, GetColor(255, 255, 255)), // 左上
-            Circle({ 0.0f,   -d }, size, GetColor(255, 255, 255)), // 下
-            Circle({    d,   -d }, size, GetColor(255, 255, 255)), // 右下
-            Circle({   -d,   -d }, size, GetColor(255, 255, 255)), // 左下
-            Circle({    d, 0.0f }, size, GetColor(255, 255, 255)), // 右
-            Circle({   -d, 0.0f }, size, GetColor(255, 255, 255))  // 左
+            Circle({ 0.0f,    d }, size, color), // 上
+            Circle({    d,    d }, size, color), // 右上
+            Circle({   -d,    d }, size, color), // 左上
+            Circle({ 0.0f,   -d }, size, color), // 下
+            Circle({    d,   -d }, size, color), // 右下
+            Circle({   -d,   -d }, size, color), // 左下
+            Circle({    d, 0.0f }, size, color), // 右
+            Circle({   -d, 0.0f }, size, color)  // 左
         };
 
         destroyFrames.push_back(MakeFrame(-1, std::move(shapes)));

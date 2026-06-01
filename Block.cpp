@@ -20,7 +20,7 @@ Block::~Block()
 
 void Block::Initialize()
 {
-	grHandle = ImageLoadManager::GetInstance().getGraphHandle(Cast<E_TEXTURE>(color));
+	grHandle = ImageLoadManager::GetInstance().GetGraphHandle(Cast<E_TEXTURE>(color));
 }
 
 void Block::Draw(const Camera& camera)
@@ -34,11 +34,11 @@ void Block::Draw(const Camera& camera)
 void Block::SetColor(BlockColor _color)
 {
 	color = _color;
-	grHandle = ImageLoadManager::GetInstance().getGraphHandle(Cast<E_TEXTURE>(color));
+	grHandle = ImageLoadManager::GetInstance().GetGraphHandle(Cast<E_TEXTURE>(color));
 }
 
 void Block::SetGridPosition(const Vec2i& pos)
 {
 	Gpos = pos;
-	SetPosition(Vec2f{ Gpos.x * Config::BLOCK_SIZE + Config::BLOCK_SIZE / 2.0f + boardOrigin.x ,Gpos.y * Config::BLOCK_SIZE + Config::BLOCK_SIZE / 2.0f});
+	SetPosition(Vec2f{ Gpos.x * Config::BLOCK_SIZE + Config::BLOCK_SIZE / 2.0f + boardOrigin.x ,Gpos.y * Config::BLOCK_SIZE + Config::BLOCK_SIZE / 2.0f + boardOrigin .y});
 }
