@@ -255,7 +255,7 @@ float ColliderManager::DistanceSq_Point_Segment(
     return (p - closest).LengthSq();
 }
 
-#if DEBUG
+#if COLLIDER_DEBUG
 void ColliderManager::DebugDraw() 
 {
     for (auto& a : colliders) {

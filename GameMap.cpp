@@ -27,6 +27,49 @@ void GameMap::Draw()
 {
 }
 
+void GameMap::SetMapData(int _map[][Config::FIELD_WIDTH])
+{
+	for (int j = 0; j < Config::FIELD_HEIGHT; j++)
+	{
+		for (int i = 0; i < Config::FIELD_WIDTH; i++)
+		{
+			int value = _map[j][i];
+
+			//printfDx(L"(%d,%d) value=%d\n", i, j, value);
+
+			if (value == -1)
+			{
+				//printfDx(L"ブロックがないからブロックを消すよ！\n");
+				if (map[i][j])
+				{
+					map[i][j]->Destroy();
+				}
+				map[i][j] = nullptr;
+			}
+			else if (!map[i][j])
+			{
+				//printfDx(L"ブロックがないからブロックを作るよ！\n");
+				BlockColor color = MyStd::Cast<BlockColor>(value);
+				auto* block = GameObjectManager::GetInstance().Create<Block>(color, DrawType::Normal, boardOrigin);
+				block->SetGridPosition(Vec2i{ i, j });
+				map[i][j] = block;
+			}
+			else if (MyStd::Cast<BlockColor>(_map[j][i]) != map[i][j]->GetColor())
+			{
+				//printfDx(L"色が違うからブロックを作り直すよ！\n");
+				if (map[i][j])
+				{
+					map[i][j]->Destroy();
+				}
+				BlockColor color = MyStd::Cast<BlockColor>(value);
+				auto* block = GameObjectManager::GetInstance().Create<Block>(color, DrawType::Normal, boardOrigin);
+				block->SetGridPosition(Vec2i{ i, j });
+				map[i][j] = block;
+			}
+		}
+	}
+}
+
 int GameMap::BreakBlockCheck()
 {
 	int lineCount = 0;

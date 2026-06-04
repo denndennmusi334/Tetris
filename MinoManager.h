@@ -2,6 +2,7 @@
 #include "MinoManager.h"
 #include "GameMap.h"
 #include "TetrisInput.h"
+#include "NetworkManager.h"
 
 #pragma region enum.
 
@@ -19,7 +20,8 @@ enum class MinoAction
 enum class PlayerNumber
 {
 	Player1,
-	Player2
+	Player2,
+	Network
 }; 
 
 #pragma endregion
@@ -83,6 +85,8 @@ private:
 	Tetromino* holdMinoVisual = nullptr;
 	Vec2f boardOrigin = { Config::FIELD_X, Config::FIELD_Y };
 
+	bool isFixed = false; // ネットワーク対戦で、ミノが固定されたかどうかを表すフラグ.
+
 #pragma region private関数
 	bool IsMoveValid(const Vec2i& newPos) const; //ミノを移動させる前に、その移動が有効かどうかをチェックする関数.
 
@@ -112,16 +116,23 @@ private:
 
 	bool IsCornerFilled(const Vec2i& pos) const;
 
+	void NetworkUpdate();
+
 #pragma endregion
 public:
 	MinoManager();
 	~MinoManager();
 	void Initialize();
 	void Finalize();
-	void Update();
+	
+	void HostUpdate();
+	void ClientUpdate();
+
 	void Draw(const Camera& camera);
 
-	void SetBoardPosition(const Vec2f& pos) { boardOrigin = pos; }
+	void SetBoardPosition(const Vec2f& pos) { 
+		boardOrigin = pos; 
+	}
 	void SetPlayerNumber(PlayerNumber num) { playerNumber = num; }
 
 	bool IsGameOver() const { return isGameOver; }
@@ -139,6 +150,10 @@ public:
 		isEffectPlaying = false;
 		return is;
 	}
+
+	void ResetFixedFlag() { isFixed = false; }
+
+	TetrisData GetTetrisDataH();
 
 	Tetromino* GetCurrentMino() const { return currentMino; }
 	Tetromino* GetNextMino() const { return nextMino; }

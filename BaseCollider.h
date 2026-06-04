@@ -46,7 +46,7 @@ public:
 
     virtual ColliderType GetColliderType() const = 0;
 
-#if DEBUG
+#if COLLIDER_DEBUG
     virtual void DebugDraw() {};
 #endif
 };

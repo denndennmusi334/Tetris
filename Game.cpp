@@ -5,6 +5,8 @@
 #include "GameObjectManager.h"
 #include "ColliderManager.h"
 #include "ImageLoadManager.h"
+#include "NetworkManager.h"
+#include "BattleManager.h"
 
 void Game::Initialize()
 {
@@ -21,6 +23,7 @@ void Game::InitManager()
     GameObjectManager::GetInstance();
     ColliderManager::GetInstance();
 	ImageLoadManager::GetInstance().Initialize();
+	BattleManager::GetInstance();
 }
 
 void Game::Finalize()
@@ -32,6 +35,7 @@ void Game::Finalize()
         sceneMgr = nullptr;
     }
 	ImageLoadManager::GetInstance().Finalize();
+	NetworkManager::GetInstance().Finalize();
 }
 
 void Game::Draw()

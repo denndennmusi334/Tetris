@@ -130,6 +130,29 @@ namespace MyStd
 
 #pragma region Cast
 
+	inline std::wstring Utf8ToWstring(const std::string& str)
+	{
+		int size = MultiByteToWideChar(
+			CP_UTF8,
+			0,
+			str.c_str(),
+			-1,
+			nullptr,
+			0);
+
+		std::wstring result(size - 1, 0);
+
+		MultiByteToWideChar(
+			CP_UTF8,
+			0,
+			str.c_str(),
+			-1,
+			&result[0],
+			size);
+
+		return result;
+	}
+
 	/// <summary>
 	/// static_cast を簡単に書くための関数
 	/// </summary>

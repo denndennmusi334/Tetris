@@ -43,9 +43,13 @@ private:
 	BattleMode mode = BattleMode::Single;
     ControlType controlType = ControlType::Human;
 
-    
+	std::unique_ptr<NetTetrisInput> netInput;
+
+	bool isHost = false;
 
     std::vector<Block*> preview[2];
+
+	int clientPower = 0;
 
     void RefreshPreview(PlayerNumber num);
 
@@ -65,7 +69,12 @@ public:
     void Update() override;
     void Draw() override;
 
+	void HostUpdate();
+	void ClientUpdate();
+
     void SetBattleMode(BattleMode _mode) { mode = _mode; }
+	void SetIsHost(bool _isHost) { isHost = _isHost; }
+	bool IsHost() const { return isHost; }
 
 
     static BattleManager& GetInstance() {

@@ -3,6 +3,7 @@
 #include "GameObjectManager.h"
 #include "TimeManager.h"
 #include "BattleManager.h"
+#include "NetworkManager.h"
 
 using namespace MyStd;
 
@@ -28,7 +29,7 @@ void MinoManager::Initialize()
 	nextMino->SetGridPosition(Vec2i{ Config::FIELD_WIDTH + 2, 2 }); //フィールドの右側に次のミノを表示するための位置.
 
 	gameMap = std::make_unique<GameMap>();
-
+	gameMap->SetBoardPos(boardOrigin);
 	level = 1;
 	linesForNextLevel = 10;
 	UpdateFallInterval();
@@ -38,10 +39,67 @@ void MinoManager::Finalize()
 {
 }
 
-void MinoManager::Update()
+void MinoManager::HostUpdate()
 {
+	if (isGameOver)return;
 	MinoUpdate();
 	GhostUpdate();
+}
+
+void MinoManager::ClientUpdate()
+{
+	if (isGameOver)return;
+	NetworkUpdate();
+	GhostUpdate();
+}
+
+void MinoManager::NetworkUpdate()
+{
+	if (isGameOver) return;
+
+	int idx = ICast(playerNumber);
+	TetrisData data = NetworkManager::GetInstance().GetBattleDataH().playerData[idx];
+	if (playerNumber == PlayerNumber::Player1)
+	{
+		currentMino->SetGridPosition(Vec2i(data.currentMinoX, data.currentMinoY));
+		currentMino->SetType(Cast<MinoType>(data.currentMinoType));
+		currentMino->SetRotateState(Cast<RotateState>(data.currentMinoRotateState));
+		gameMap->SetMapData(data.map);
+	}
+
+	if (playerNumber == PlayerNumber::Player2)
+	{
+		bool isFirstFrame = (nextMino->GetType() != Cast<MinoType>(data.nextMinoType));
+
+		if (data.isFixed || isFirstFrame)
+		{
+			currentMino->SetType(Cast<MinoType>(data.currentMinoType));
+			currentMino->SetGridPosition(Vec2i(data.currentMinoX, data.currentMinoY));
+			currentMino->SetRotateState(Cast<RotateState>(data.currentMinoRotateState));
+			gameMap->SetMapData(data.map);
+		}
+
+	}
+
+
+	if (nextMino->GetType() != Cast<MinoType>(data.nextMinoType)) {
+		nextMino->SetType(Cast<MinoType>(data.nextMinoType));
+	}
+
+	MinoType newHoldMinoType = Cast<MinoType>(data.holdMinoType);
+	if (holdMinoType != newHoldMinoType)
+	{
+		holdMinoType = newHoldMinoType;
+		if (!holdMinoVisual)
+		{
+			holdMinoVisual = GameObjectManager::GetInstance().Create<Tetromino>(holdMinoType, boardOrigin);
+			holdMinoVisual->SetGridPosition(Vec2i{ -4, 2 });
+		}
+		else
+		{
+			holdMinoVisual->SetType(holdMinoType);
+		}
+	}
 }
 
 void MinoManager::Draw(const Camera& camera)
@@ -88,46 +146,6 @@ void MinoManager::MinoUpdate()
 	{
 		TryHold();
 	}
-	
-
-#pragma region debug用
-	//if ((playerNumber == PlayerNumber::Player1 && input.IsTrigger(KEY_INPUT_E)) || (playerNumber == PlayerNumber::Player2 && input.IsTrigger(KEY_INPUT_NUMPAD9)))
-	//{
-	//	lockTimer = 0.0f;
-	//	TryRotateRight();
-	//	lastActionIsRotate = true;
-	//}
-	//else if ((playerNumber == PlayerNumber::Player1 && input.IsTrigger(KEY_INPUT_Q)) || (playerNumber == PlayerNumber::Player2 && input.IsTrigger(KEY_INPUT_NUMPAD7)))
-	//{
-	//	lockTimer = 0.0f;
-	//	TryRotateLeft();
-	//	lastActionIsRotate = true;
-	//}
-	//else if ((playerNumber == PlayerNumber::Player1 && input.IsRepeat(KEY_INPUT_A, 8, 2)) || (playerNumber == PlayerNumber::Player2 && input.IsRepeat(KEY_INPUT_NUMPAD4, 8, 2)))
-	//{
-	//	lockTimer = 0.0f;
-	//	TestMino(Vec2i(-1, 0), &lastActionIsRotate);
-	//}
-	//else if ((playerNumber == PlayerNumber::Player1 && input.IsRepeat(KEY_INPUT_D, 8, 2)) || (playerNumber == PlayerNumber::Player2 && input.IsRepeat(KEY_INPUT_NUMPAD6, 8, 2)))
-	//{
-	//	lockTimer = 0.0f;
-	//	TestMino(Vec2i(1, 0), &lastActionIsRotate);
-	//}
-	//else if ((playerNumber == PlayerNumber::Player1 && input.IsRepeat(KEY_INPUT_S, 8, 2)) || (playerNumber == PlayerNumber::Player2 && input.IsRepeat(KEY_INPUT_NUMPAD5, 8, 2)))
-	//{
-	//	lockTimer = 0.0f;
-	//	TestMino(Vec2i(0, 1), &lastActionIsRotate);
-	//}
-	//else if ((playerNumber == PlayerNumber::Player1 && input.IsTrigger(KEY_INPUT_SPACE)) || (playerNumber == PlayerNumber::Player2 && input.IsTrigger(KEY_INPUT_NUMPAD0)))
-	//{
-	//	HardDrop();
-	//}
-	//else if ((playerNumber == PlayerNumber::Player1 && input.IsTrigger(KEY_INPUT_LSHIFT)) || (playerNumber == PlayerNumber::Player2 && input.IsTrigger(KEY_INPUT_RETURN)))
-	//{
-	//	TryHold();
-	//}
-
-#pragma endregion
 
 	if (fallTimer >= fallInterval)
 	{
@@ -177,6 +195,7 @@ void MinoManager::TryHold()
 	if (holdMinoType == MinoType::None)
 	{
 		holdMinoType = currentType;
+		currentMino->SetRotateState(RotateState::UP);
 		holdMinoVisual = currentMino;
 		currentMino = nextMino;
 		currentMino->SetGridPosition(Vec2i{ 5, 0 });
@@ -189,6 +208,7 @@ void MinoManager::TryHold()
 		MinoType prevHoldType = holdMinoType;
 		holdMinoType = currentType;
 
+		currentMino->SetRotateState(RotateState::UP);
 		Tetromino* newHoldMino = currentMino;
 		currentMino = holdMinoVisual;
 		holdMinoVisual = newHoldMino;
@@ -271,6 +291,8 @@ void MinoManager::HardDrop()
 void MinoManager::LockMino()
 {
 	gameMap->SetBlock(currentMino);
+
+	isFixed = true;
 
 	int cornerCount = 0;
 	bool isMini = false;
@@ -671,10 +693,6 @@ bool MinoManager::CheckTSpinCondition(int& outCornerCount, bool& outIsMini)
 		return false;
 	}
 
-	//--------------------------------
-	// front corner
-	//--------------------------------
-
 	static constexpr Vec2i frontCorners[4][2] =
 	{
 		// UP
@@ -727,7 +745,7 @@ bool MinoManager::CheckTSpinCondition(int& outCornerCount, bool& outIsMini)
 	outIsMini = !proper;
 
 	outCornerCount = blockCount;
-
+	isEffectPlaying = true;
 	return true;
 }
 
@@ -901,4 +919,48 @@ void MinoManager::ApplyGarbage(int amount)
 	{
 		gameMap->AddGarbageLine(boardOrigin);
 	}
+}
+
+TetrisData MinoManager::GetTetrisDataH()
+{
+	TetrisData data;
+	data.currentMinoX = currentMino->GetGridPosition().x;
+	data.currentMinoY = currentMino->GetGridPosition().y;
+	data.currentMinoType = Cast<int>(currentMino->GetType());
+	data.currentMinoRotateState = Cast<int>(currentMino->GetRotateState());
+	data.nextMinoType = Cast<int>(nextMino->GetType());
+	data.holdMinoType = Cast<int>(holdMinoType);
+	for (int j = 0; j < Config::FIELD_HEIGHT; j++)
+	{
+		for (int i = 0; i < Config::FIELD_WIDTH; i++)
+		{
+			Block* block = gameMap->GetBlock(Vec2i{ i, j });
+			if (block)
+			{
+				data.map[j][i] = Cast<int>(block->GetColor());
+			}
+			else
+			{
+				data.map[j][i] = -1;
+			}
+		}
+	}
+
+	int blockCount = 0;
+
+	for (int y = 0; y < Config::FIELD_HEIGHT; y++)
+	{
+		for (int x = 0; x < Config::FIELD_WIDTH; x++)
+		{
+			if (data.map[y][x] != -1)
+			{
+				blockCount++;
+			}
+		}
+	}
+
+	//printfDx(L"Send Block Count = %d\n", blockCount);
+	data.isFixed = isFixed;
+
+	return data;
 }

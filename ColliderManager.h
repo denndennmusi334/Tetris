@@ -51,7 +51,7 @@ public:
 
     // 衝突判定
     void CheckAllCollisions();
-#if DEBUG
+#if COLLIDER_DEBUG
     void DebugDraw();
 #endif 
 

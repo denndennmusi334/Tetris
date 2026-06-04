@@ -26,6 +26,8 @@
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="BattleManager.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColliderManager.cpp" />
@@ -42,13 +44,16 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MinoManager.cpp" />
     <ClCompile Include="NetTetrisInput.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="SceneController.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ServerScene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TetrisInput.cpp" />
     <ClCompile Include="Tetromino.cpp" />
+    <ClCompile Include="TextInputBox.cpp" />
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +64,8 @@
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BattleManager.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderManager.h" />
@@ -70,17 +77,21 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="httplib.h" />
     <ClInclude Include="ImageLoadManager.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Job.h" />
     <ClInclude Include="MinoManager.h" />
     <ClInclude Include="MyStd.h" />
     <ClInclude Include="NetTetrisInput.h" />
+    <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="SceneController.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ServerScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TetrisInput.h" />
     <ClInclude Include="Tetromino.h" />
+    <ClInclude Include="TextInputBox.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
@@ -109,14 +120,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -171,7 +182,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\ydauser01\Documents\C++GameMeMade\Tetris\json-develop\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -180,6 +191,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>zlib_vs2015_x64_MDd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalDependencies>Crypt32.lib
+;Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -190,7 +203,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\ydauser01\Documents\C++GameMeMade\Tetris\json-develop\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -200,6 +213,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Crypt32.lib
+;Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>zlib_vs2015_x64_MD.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,10 +1,11 @@
 ﻿#include "stdafx.h"
 #include "SceneManager.h"
 #include "GameScene.h"
+#include "ServerScene.h"
 
 SceneManager::SceneManager() :NextScene(SceneName::INVALID)
 {
-	Scene = (BaseScene*) new GameScene(this);
+	Scene = (BaseScene*) new ServerScene(this);
 	Scene->Initialize();
 }
 
@@ -70,6 +71,7 @@ BaseScene* SceneManager::CreateScene(SceneName name)
 {
     switch (name)
     {
+	case SceneName::SERVER: return new ServerScene(this);
     case SceneName::GAME: return new GameScene(this);
     default: return nullptr;
     }

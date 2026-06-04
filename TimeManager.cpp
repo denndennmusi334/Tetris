@@ -8,11 +8,6 @@ void TimeManager::SetStartTime()
 
 BOOL TimeManager::UpdateTiming()
 {
-    if (GetActiveFlag() == FALSE)
-    {
-        SetStartTime();
-        return FALSE;
-    }
 
     us = GetNowHiPerformanceCount() - startTime;
 

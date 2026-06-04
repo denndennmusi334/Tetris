@@ -3,6 +3,7 @@
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "NetTetrisInput.h"
+#include "NetworkManager.h"
 #include "GameObjectManager.h"
 
 BattleManager::BattleManager()
@@ -99,19 +100,38 @@ KEY_INPUT_E, // RotateRight
 KEY_INPUT_LSHIFT // Hold
 	};
 
+	if (NetworkManager::GetInstance().IsHost()) {
+		players[0].board = std::make_unique<MinoManager>();
+		players[1].board = std::make_unique<MinoManager>();
+		players[0].board->SetBoardPosition(Vec2f{ 200.0f, 64.0f });
+		players[1].board->SetBoardPosition(Vec2f{ Config::SCREEN_WIDTH / 2 + 200.0f, 64.0f });
+		players[0].board->SetPlayerNumber(PlayerNumber::Player1);
+		players[1].board->SetPlayerNumber(PlayerNumber::Player2);
+		players[0].input = std::make_unique<TetrisInput>(p1);
+		netInput = std::make_unique<NetTetrisInput>();
+		players[0].board->SetTetrisInput(players[0].input.get());
+		players[1].board->SetTetrisInput(dynamic_cast<TetrisInput*>(netInput.get()));
+		players[0].board->Initialize();
+		players[1].board->Initialize();
+	}
+	else {
+		players[0].board = std::make_unique<MinoManager>();
+		players[1].board = std::make_unique<MinoManager>();
 
-	players[0].board = std::make_unique<MinoManager>();
-	players[1].board = std::make_unique<MinoManager>();
-	players[0].board->SetBoardPosition(Vec2f{ 200.0f, 64.0f });
-	players[1].board->SetBoardPosition(Vec2f{ Config::SCREEN_WIDTH / 2 + 200.0f, 64.0f });
-	players[0].board->SetPlayerNumber(PlayerNumber::Player1);
-	players[1].board->SetPlayerNumber(PlayerNumber::Player2);
-	players[0].input = std::make_unique<TetrisInput>(p1);
-	players[1].input = std::make_unique<NetTetrisInput>();
-	players[0].board->SetTetrisInput(players[0].input.get());
-	players[1].board->SetTetrisInput(players[1].input.get());
-	players[0].board->Initialize();
-	players[1].board->Initialize();
+		players[0].board->SetBoardPosition(Vec2f{ 200.0f, 64.0f });
+		players[1].board->SetBoardPosition(Vec2f{ Config::SCREEN_WIDTH / 2 + 200.0f, 64.0f });
+
+		players[0].board->SetPlayerNumber(PlayerNumber::Player2);
+		players[1].board->SetPlayerNumber(PlayerNumber::Player1);
+
+		players[0].input = std::make_unique<TetrisInput>(p1);
+		players[0].board->SetTetrisInput(players[0].input.get());
+
+		players[0].board->Initialize();
+		players[1].board->Initialize();
+	}
+
+
 }
 
 void BattleManager::Finalize()
@@ -120,19 +140,44 @@ void BattleManager::Finalize()
 
 void BattleManager::Update()
 {
-	for (int i = 0; i < 2; i++)
+	if (mode == BattleMode::Network) {
+		NetworkManager::GetInstance().Update();
+	}
+	if ((mode == BattleMode::Network && NetworkManager::GetInstance().IsHost()) || mode != BattleMode::Network)
 	{
-		if (players[i].input)
+		HostUpdate();
+	}
+	else if (mode == BattleMode::Network && !NetworkManager::GetInstance().IsHost())
+	{
+		ClientUpdate();
+	}
+
+}
+
+
+void BattleManager::HostUpdate()
+{
+	if (mode == BattleMode::Network) {
+		auto& nMgr = NetworkManager::GetInstance();
+
+		while (nMgr.HasBattleDataG())
 		{
-			players[i].input->Update();
+			BattleDataG data = nMgr.GetBattleDataG();
+			netInput->SetState(data.playerInputs);
 		}
+		netInput->Update();
+	}
+
+	if (players[0].input)
+	{
+		players[0].input->Update();
 	}
 
 	for (int i = 0; i < 2; i++)
 	{
 		if (players[i].board)
 		{
-			players[i].board->Update();
+			players[i].board->HostUpdate();
 		}
 	}
 
@@ -143,7 +188,7 @@ void BattleManager::Update()
 
 		if (!queue.empty())
 		{
-			queue.front().timer -=TimeManager::GetInstance().GetDeltaTime();
+			queue.front().timer -= TimeManager::GetInstance().GetDeltaTime();
 
 			if (queue.front().timer <= 0)
 			{
@@ -154,23 +199,64 @@ void BattleManager::Update()
 		}
 	}
 
-	auto& input = InputManager::GetInstance();
-	if (input.IsTrigger(KEY_INPUT_1))
+	if (mode == BattleMode::Network)
 	{
-		SendGarbage(PlayerNumber::Player1, 1);
+		auto& nMgr = NetworkManager::GetInstance();
+
+		BattleDataH data;
+		for (int i = 0; i < 2; i++)
+		{
+			data.playerData[i] = players[i].board->GetTetrisDataH();
+			data.playerData[i].power = players[i].readyGarbage;
+		}
+		nMgr.SendBattleDataH(data);
+
+		for (int i = 0; i < 2; i++)
+		{
+			players[i].board->ResetFixedFlag();
+		}
+
+		netInput->ClearTriggers();
 	}
-	else if (input.IsTrigger(KEY_INPUT_2))
+}
+
+void BattleManager::ClientUpdate()
+{
+	players[0].input->Update();
+
+	BattleDataG data;
+
+	// Šù‘¶‚ÌTetrisInput‚©‚çó‘Ô‚ðƒRƒs[
+	data.playerInputs.left = players[0].input->IsPress(TetrisAction::MoveLeft);
+	data.playerInputs.right = players[0].input->IsPress(TetrisAction::MoveRight);
+	data.playerInputs.softDrop = players[0].input->IsPress(TetrisAction::SoftDrop);
+
+	data.playerInputs.rotateLeft = players[0].input->IsTrigger(TetrisAction::RotateLeft);
+	data.playerInputs.rotateRight = players[0].input->IsTrigger(TetrisAction::RotateRight);
+	data.playerInputs.hold = players[0].input->IsTrigger(TetrisAction::Hold);
+	data.playerInputs.hardDrop = players[0].input->IsTrigger(TetrisAction::HardDrop);
+
+	NetworkManager::GetInstance().SendBattleDataG(data);
+
+	if (players[0].board)
 	{
-		SendGarbage(PlayerNumber::Player1, 2);
+		players[0].board->HostUpdate();
 	}
-	else if (input.IsTrigger(KEY_INPUT_3))
-	{ 
-		SendGarbage(PlayerNumber::Player1, 3);
-	}
-	else if (input.IsTrigger(KEY_INPUT_4))
+
+	for (int i = 0; i < 2; i++)
 	{
-		SendGarbage(PlayerNumber::Player1, 4);
+		if (players[i].board)
+		{
+			players[i].board->ClientUpdate();
+		}
+		if (players[i].readyGarbage != NetworkManager::GetInstance().GetBattleDataH().playerData[i].power)
+		{
+			players[i].readyGarbage = NetworkManager::GetInstance().GetBattleDataH().playerData[i].power;
+			RefreshPreview(MyStd::Cast<PlayerNumber>(i));
+		}
 	}
+
+
 }
 
 void BattleManager::Draw()

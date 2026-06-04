@@ -1,9 +1,16 @@
 #include "stdafx.h"
 #include "NetTetrisInput.h"
 
-void NetTetrisInput::SetState(const NetworkInputState& s)
+void NetTetrisInput::SetState(const NetworkInputState& newState)
 {
-	state = s;
+	state.left = newState.left;
+	state.right = newState.right;
+	state.softDrop = newState.softDrop;
+
+	state.rotateLeft |= newState.rotateLeft;
+	state.rotateRight |= newState.rotateRight;
+	state.hold |= newState.hold;
+	state.hardDrop |= newState.hardDrop;
 }
 
 void NetTetrisInput::Update()
@@ -29,4 +36,12 @@ void NetTetrisInput::Update()
 	UpdateAction(
 		TetrisAction::Hold,
 		state.hold);
+}
+
+void NetTetrisInput::ClearTriggers()
+{
+	state.rotateLeft = false;
+	state.rotateRight = false;
+	state.hold = false;
+	state.hardDrop = false;
 }

@@ -10,14 +10,20 @@ private:
 	Block* map[Config::FIELD_WIDTH][Config::FIELD_HEIGHT] = { nullptr };
 	int score = 0;
 
+	Vec2f boardOrigin = { Config::FIELD_X, Config::FIELD_Y };
+
 	int garbageHoleX = 0;
 	int garbageHoleCounter = 0;
 public:
 	GameMap();
 	~GameMap();
 
+	void SetMapData(int _map[][Config::FIELD_WIDTH]);
+
 	int BreakBlockCheck();
 	void BreakLine(int line);
+
+	void SetBoardPos(Vec2f pos) { boardOrigin = pos; }
 
 	void SetBlock(Tetromino* mino);
 	Block* GetBlock(Vec2i pos)

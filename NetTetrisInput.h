@@ -27,10 +27,9 @@ public:
     NetTetrisInput() :
         state{ false, false, false, false, false, false, false }{ }
 	
-	
+    void ClearTriggers();
 
-    void SetState(
-        const NetworkInputState& s);
+    void SetState(const NetworkInputState& s);
 
     void Update() override;
 };
