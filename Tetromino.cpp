@@ -229,7 +229,8 @@ BlockColor Tetromino::SetColor(MinoType _type)
 		color = BlockColor::RED;
 		break;
 	default:
-		assert(false && "Invalid MinoType");
+		//assert(false && "Invalid MinoType");
+		break;
 	}
 	return color;
 }

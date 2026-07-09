@@ -42,6 +42,8 @@ public:
 	void Draw(const Camera& camera) override;
 	//ブロックが壊れるときに呼ぶ関数.
 
+	BlockColor GetColor() const { return color; }
+
 	void SetColor(BlockColor _color);
 	void SetGridPosition(const Vec2i& pos);
 	Vec2i GetGridPosition() const { return Gpos; }

@@ -15,7 +15,6 @@ GameScene::~GameScene()
 
 void GameScene::Initialize()
 {
-	BattleManager::GetInstance().SetBattleMode(BattleMode::Double);
 	BattleManager::GetInstance().Initialize();
 	bg = GameObjectManager::GetInstance().Create<BackGround>();
 }
@@ -26,6 +25,7 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
+
 	BattleManager::BattleManager::GetInstance().Update();
 	GameObjectManager::GetInstance().Update();
 
@@ -40,8 +40,9 @@ void GameScene::Update()
 void GameScene::Draw()
 {
 	drawMgr.DrawAll(camera);
-	DrawString(Config::FIELD_X + Config::FIELD_PIXEL_W, 200, ("SCORE: " + std::to_string(minoMgr.GetScore())).c_str(), GetColor(255, 255, 255));
-#if DEBUG
+	std::wstring scoreText = L"SCORE: " + std::to_wstring(minoMgr.GetScore());
+	DrawString(Config::FIELD_X + Config::FIELD_PIXEL_W, 200, scoreText.c_str(), GetColor(255, 255, 255));
+#if COLLIDER_DEBUG
 	ColliderManager::GetInstance().DebugDraw();
 #endif
 }

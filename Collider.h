@@ -11,7 +11,7 @@ public:
     Vector2D<float> GetHalfSize() const { return halfSize; }
     ColliderType GetColliderType() const override { return ColliderType::BOX; }
 
-#if DEBUG
+#if COLLIDER_DEBUG
     void DebugDraw() override;
 #endif
 };
@@ -27,7 +27,7 @@ public:
     float GetRadius() const { return radius; }
     ColliderType GetColliderType() const override { return ColliderType::CIRCLE; }
 
-#if DEBUG
+#if COLLIDER_DEBUG
     void DebugDraw() override;
 #endif
 };
@@ -54,7 +54,7 @@ public:
     {
         return GetWorldPosition() - Vector2D<float>(0, halfHeight);
     }
-#if DEBUG
+#if COLLIDER_DEBUG
     void DebugDraw() override;
 #endif
 };

@@ -65,6 +65,11 @@ public:
     bool IsMouseTriggerRight()  const { return mouseButtons[1] && !oldMouseButtons[1]; }
     bool IsMouseTriggerMiddle() const { return mouseButtons[2] && !oldMouseButtons[2]; }
 
+	// ボタン Release
+	bool IsMouseReleaseLeft()   const { return !mouseButtons[0] && oldMouseButtons[0]; }
+	bool IsMouseReleaseRight()  const { return !mouseButtons[1] && oldMouseButtons[1]; }
+	bool IsMouseReleaseMiddle() const { return !mouseButtons[2] && oldMouseButtons[2]; }
+
     // ホイール
     int GetWheelRot() const { return wheelRot; }
 

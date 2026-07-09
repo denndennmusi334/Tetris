@@ -45,11 +45,32 @@ public:
 	~Tetromino();
 #pragma region inline関数
 
+	void SetType(MinoType _type) { type = _type; 
+	SetColor(SetColor(type));
+	for (int i = 0; i < 4; ++i)
+	{
+		if (blocks[i])
+		{
+			blocks[i]->SetGridPosition(GetBlockGridPosition(i));
+		}
+	}
+	}
 
 	MinoType GetType() const { return type; }
 	Vec2i GetGridPosition() const { return Gpos; }
 	
 	RotateState GetRotateState() const { return rotateState; }
+	void SetRotateState(RotateState state) { 
+		rotateState = state; 
+		for (int i = 0; i < 4; ++i)
+		{
+			if (blocks[i])
+			{
+				blocks[i]->SetGridPosition(GetBlockGridPosition(i));
+			}
+		}
+
+	}
 	
 	void SetGridPosition(const Vec2i& pos)
 	{

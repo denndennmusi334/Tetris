@@ -10,6 +10,7 @@ void BackGroundStar::OnCollision(BaseCollider* other)
 	LineInfo info;
 	for (auto& pos : starPoss)
 	{
+		// 自分の位置から見て、衝突した星の位置が既に登録されている星の位置よりも近い場合、線を描画する情報を更新する.
 		if (pos.starPos.Distance(this->GetPosition()) > other->GetOwner()->GetPosition().Distance(this->GetPosition()))
 		{
 			info = {
@@ -22,6 +23,7 @@ void BackGroundStar::OnCollision(BaseCollider* other)
 
 	starPoss.push_back(info);
 
+	// 線を描画する情報は最大5つまで保持するようにする.
 	if (starPoss.size() > 5)
 	{
 		starPoss.erase(starPoss.begin());
@@ -42,14 +44,14 @@ BackGroundStar::~BackGroundStar()
 void BackGroundStar::Initialize()
 {
 	SetDrawLayer(-2);
-	ColliderManager::GetInstance().Create<CircleCollider>(this, Vec2f{ 0,0 }, 50.0f);
+	ColliderManager::GetInstance().Create<CircleCollider>(this, Vec2f{ 0,0 }, 50.0f);	//半径50の円形Colliderを作成する.
 }
 
 void BackGroundStar::Update()
 {
 	if(state == StarState::DESTROY && !animator.IsPlaying())
 	{
-		GameObject::Destroy();
+		GameObject::Destroy();	//アニメーションが終了したらオブジェクトを破壊する.
 		return;
 	}
 	starPoss.clear();
@@ -57,7 +59,8 @@ void BackGroundStar::Update()
 	if (GetPosition().x < -50 || GetPosition().x > Config::SCREEN_WIDTH + 50 ||
 		GetPosition().y < -50 || GetPosition().y > Config::SCREEN_HEIGHT + 50)
 	{
-		GameObject::Destroy();
+		GameObject::Destroy();	//画面外に出たらオブジェクトを破壊する.
+		return;					//この場合はアニメーションを再生せずに破壊する.
 	}
 
 	animator.Update();

@@ -3,6 +3,7 @@
 
 enum class SceneName
 {
+	SERVER,  //サーバーシーン.
 	GAME,    //ゲームシーン.
 
     COUNT,
