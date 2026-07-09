@@ -11,6 +11,7 @@ struct RoomData
 	int availableSpots;
 };
 
+// ゲームの状態を表す構造体. Hostがこの構造体を作って、Guestに送る.
 struct TetrisData
 {
 	int currentMinoX;
@@ -29,11 +30,13 @@ struct TetrisData
 	bool isFixed;
 };
 
+// Host -> Guest : ゲームの状態を送るための構造体. Hostがこの構造体を作って、Guestに送る.
 struct BattleDataH
 {
 	TetrisData playerData[2];
 };
 
+// Guest -> Host : プレイヤーの入力を送るための構造体. Guestがこの構造体を作って、Hostに送る.
 struct BattleDataG
 {
 	NetworkInputState playerInputs;

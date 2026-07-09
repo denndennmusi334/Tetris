@@ -679,20 +679,23 @@ bool MinoManager::CheckTSpinCondition(int& outCornerCount, bool& outIsMini)
 
 	for (auto& offset : corners)
 	{
+		// 回転の中心から見た4つの隅の位置を計算
 		Vec2i world =
 			center + offset;
-
+		// その位置にブロックがあるか、壁や床にぶつかっているかをチェック
 		if (IsCornerFilled(world))
 		{
 			blockCount++;
 		}
 	}
 
+	// 4つの隅のうち、3つ以上が埋まっている場合はTスピンと判定
 	if (blockCount < 3)
 	{
 		return false;
 	}
 
+	// さらに、回転の中心から見て、回転方向の前側の2つの隅が両方とも埋まっているかをチェックする.
 	static constexpr Vec2i frontCorners[4][2] =
 	{
 		// UP
@@ -720,23 +723,27 @@ bool MinoManager::CheckTSpinCondition(int& outCornerCount, bool& outIsMini)
 		}
 	};
 
+	// 現在の回転状態を取得
 	RotateState rot =
 		currentMino->GetRotateState();
 
-	int frontCount = 0;
+	int frontCount = 0;// 回転の中心から見て、回転方向の前側の2つの隅が両方とも埋まっているかをチェックするための変数..
 
 	for (int i = 0; i < 2; i++)
 	{
+		// 回転の中心から見た、回転方向の前側の隅の位置を計算
 		Vec2i world =
 			center
 			+ frontCorners[(int)rot][i];
 
+		// その位置にブロックがあるか、壁や床にぶつかっているかをチェック
 		if (IsCornerFilled(world))
 		{
 			frontCount++;
 		}
 	}
 
+	// 前側の隅が2つとも埋まっている場合は通常のTスピン、そうでない場合はミニTスピンと判定する.
 	bool proper =
 		(frontCount == 2)
 		|| (lastKickIndex == 3)
@@ -768,6 +775,7 @@ bool MinoManager::IsCornerFilled(const Vec2i& pos) const
 	// 固定ブロック
 	return gameMap->GetBlock(pos) != nullptr;
 }
+
 void MinoManager::AddScore(int lineCount, bool isTspin, bool isMini)
 {
 	int baseScore = 0;
@@ -828,7 +836,7 @@ void MinoManager::UpdateFallInterval()
 
 int MinoManager::CalculateAttack(int lineCount, bool isTspin, bool isMini)
 {
-	int attack = 0;
+	int attack = 0;	//このターンの攻撃力.相手に送るゴミMinoの量に影響する.
 
 	// TSpin
 	if (isTspin)
@@ -877,6 +885,7 @@ int MinoManager::CalculateAttack(int lineCount, bool isTspin, bool isMini)
 	}
 
 	//B2B(強い攻撃の二連続).
+	//B2B判定は、4ライン消し、またはTスピンで1ライン以上消しのどちらかを満たすときにtrueになる.
 	bool isB2BAction =
 		(lineCount == 4)
 		|| (isTspin && lineCount > 0);

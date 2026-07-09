@@ -3,6 +3,8 @@
 
 using json = nlohmann::json;
 
+const String NETWORK_ADDRESS = "http://192.168.56.125:8080";	//サーバーのアドレスを指定.
+
 void NetworkManager::Initialize()
 {
 	isHost = false;
@@ -21,7 +23,7 @@ void NetworkManager::Finalize()
 
 void NetworkManager::Logout()
 {
-	httplib::Client cli("http://10.22.6.170:8080");
+	httplib::Client cli(NETWORK_ADDRESS);
 
 	httplib::Params params;
 
@@ -39,7 +41,7 @@ void NetworkManager::Logout()
 void NetworkManager::Dismantle()
 {
 	if (roomId == "\0") return;
-	httplib::Client cli("http://10.22.6.170:8080");
+	httplib::Client cli(NETWORK_ADDRESS);
 
 	httplib::Params params;
 
@@ -53,6 +55,7 @@ void NetworkManager::Dismantle()
 	ws.stop();
 }
 #pragma endregion
+
 void NetworkManager::Update()
 {
 	roomReady = false;
@@ -79,15 +82,18 @@ void NetworkManager::HandleMessage(const nlohmann::json& json)
 	std::string type =
 		json.value("type", "");
 
+	// room_readyは、対戦相手が部屋に入ってきて、対戦開始の準備ができたことを知らせるメッセージ.このメッセージを受け取ったら、roomReadyフラグをtrueにする.
 	if (type == "room_ready")
 	{
 		roomReady = true;
 	}
+	// startは、対戦開始の合図を知らせるメッセージ.このメッセージを受け取ったら、isStartedフラグをtrueにする.
 	else if (type == "start")
 	{
 		isStarted = true;
 	}
 
+	// battle_data_hは、対戦相手のプレイヤーデータを受け取るためのメッセージ.このメッセージを受け取ったら、BattleDataH構造体にデータを格納して、battleDataH変数に保存する.
 	if (type == "battle_data_h")
 	{
 		BattleDataH data = { 0 };
@@ -115,14 +121,16 @@ void NetworkManager::HandleMessage(const nlohmann::json& json)
 				//printfDx(L"map exists=%d\n",
 				//	pData.contains("map"));
 
-				data.playerData[i].currentMinoRotateState = pData.value("currentMinoRotateState", 0);
-				data.playerData[i].currentMinoType = pData.value("currentMinoType", 0);
-				data.playerData[i].currentMinoX = pData.value("currentMinoX", 0);
-				data.playerData[i].currentMinoY = pData.value("currentMinoY", 0);
+				data.playerData[i].currentMinoRotateState = pData.value("currentMinoRotateState", 0);// 現在のcurrentMinoの回転情報を取得.
+				data.playerData[i].currentMinoType = pData.value("currentMinoType", 0);	// 現在のcurrentMinoの種類を取得.
+				data.playerData[i].currentMinoX = pData.value("currentMinoX", 0);		// 現在のcurrentMinoのX座標を取得.
+				data.playerData[i].currentMinoY = pData.value("currentMinoY", 0);		// 現在のcurrentMinoのY座標を取得.
 
-				data.playerData[i].holdMinoType = pData.value("holdMinoType", -1);
-				data.playerData[i].nextMinoType = pData.value("nextMinoType", 0);
-				data.playerData[i].power = pData.value("power", 0);
+				data.playerData[i].holdMinoType = pData.value("holdMinoType", -1);		//現在のholdMinoの種類を取得. holdMinoがない場合は-1になるようにする.
+				data.playerData[i].nextMinoType = pData.value("nextMinoType", 0);		//現在のnextMinoの種類を取得.
+				data.playerData[i].power = pData.value("power", 0);						//現在のたまっているゴミの量を取得.
+
+				// mapは2次元配列なので、まずmapが存在するかと、mapが配列であるかをチェックしてから、二重のループでmapのデータをBattleDataH構造体に格納する.もしmapのデータが整数でない場合は、そのマスにはブロックがないとみなして-1を格納する.
 				if (pData.contains("map") && pData["map"].is_array())
 				{
 					auto& jsonMap = pData["map"];
@@ -130,8 +138,10 @@ void NetworkManager::HandleMessage(const nlohmann::json& json)
 
 					for (int y = 0; y < height; y++)
 					{
+						// 配列かどうかのチェック.もし配列でなければ、その行は無視する.
 						if (jsonMap[y].is_array())
 						{
+							// sizeがFIELD_WIDTHを超えている場合は、FIELD_WIDTHまでしか読み込まないようにする.これにより、サーバーから送られてくるmapのサイズが大きすぎて、クライアント側で処理できなくなるのを防ぐ.
 							int width = std::min((int)jsonMap[y].size(), Config::FIELD_WIDTH);
 							for (int x = 0; x < width; x++)
 							{
@@ -149,10 +159,12 @@ void NetworkManager::HandleMessage(const nlohmann::json& json)
 					}
 				}
 
+				// isFixedは、currentMinoが固定されているかどうかを表すフラグ.
 				data.playerData[i].isFixed = pData.value("isFixed", false);
 			}
 		}
 
+		// lock_guardを使って、battleDataHへのアクセスを保護する.これにより、複数のスレッドが同時にbattleDataHにアクセスしてデータ競合が発生するのを防ぐ.
 		std::lock_guard<std::mutex> lock(battleMutex);
 
 		battleDataH = data;
@@ -170,7 +182,7 @@ void NetworkManager::HandleMessage(const nlohmann::json& json)
 void NetworkManager::CreateRoom()
 {
 	Dismantle();
-	httplib::Client cli("http://10.22.6.170:8080");
+	httplib::Client cli(NETWORK_ADDRESS);
 
 	httplib::Params params;
 
@@ -221,7 +233,7 @@ bool NetworkManager::JoinRoom(const String& roomId, const std::string& teamName,
 			return false;	
 		}
 	}
-    httplib::Client cli("http://10.22.6.170:8080");
+    httplib::Client cli(NETWORK_ADDRESS);
 
     httplib::Params params;
 
@@ -262,7 +274,7 @@ bool NetworkManager::JoinRoom(const String& roomId, const std::string& teamName,
 void NetworkManager::LoadRoomList()
 {
 	roomList.clear();
-	httplib::Client cli("http://10.22.6.170:8080");
+	httplib::Client cli(NETWORK_ADDRESS);
 
 	auto res = cli.Get("/roomlist");
 
@@ -294,7 +306,7 @@ void NetworkManager::LoadRoomList()
 void NetworkManager::Connect()
 {
 	std::string url =
-		"ws://10.22.6.170:8080/ws?room_id=" +
+		"ws://192.168.56.125:8080/ws?room_id=" +
 		nowRoomId +
 		"&player_id=" +
 		playerId;

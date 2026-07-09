@@ -19,13 +19,13 @@ void BattleManager::Initialize()
 	switch (mode)
 	{
 	case BattleMode::Single:
-		SInitialize();
+		SingleInitialize();
 		break;
 	case BattleMode::Double:
-		DInitialize();
+		DoubleInitialize();
 		break;
 	case BattleMode::Network:
-		NInitialize();
+		NetworkInitialize();
 		break;
 	default:
 		break;
@@ -33,7 +33,7 @@ void BattleManager::Initialize()
 
 }
 
-void BattleManager::SInitialize()
+void BattleManager::SingleInitialize()
 {
 	KeyBinding p1 = {
 		KEY_INPUT_A, // MoveLeft
@@ -52,7 +52,7 @@ void BattleManager::SInitialize()
 	players[0].board->Initialize();
 }
 
-void BattleManager::DInitialize()
+void BattleManager::DoubleInitialize()
 {
 	KeyBinding p1 = {
 	KEY_INPUT_A, // MoveLeft
@@ -88,7 +88,7 @@ void BattleManager::DInitialize()
 	players[1].board->Initialize();
 }
 
-void BattleManager::NInitialize()
+void BattleManager::NetworkInitialize()
 {
 	KeyBinding p1 = {
 KEY_INPUT_A, // MoveLeft
@@ -266,27 +266,34 @@ void BattleManager::Draw()
 
 void BattleManager::RefreshPreview(PlayerNumber num)
 {
+
+	float DrawX = 200.0f;
 	static const Vec2f PREVIEW_POS[2] = {
-	Vec2f{ 200.0f, 0 },
-	Vec2f{ Config::SCREEN_WIDTH / 2 + 200.0f, 0 }
+	Vec2f{ DrawX, 0 },							//Player1のプレビューの描画位置.
+	Vec2f{ Config::SCREEN_WIDTH / 2 + DrawX, 0 }//Player2のプレビューの描画位置.
 	};
 
+	//既存のプレビューを削除
 	for (auto& p : preview[MyStd::ICast(num)])
 	{
 		p->Destroy();
 	}
 	preview[MyStd::ICast(num)].clear();
 
+	//新しいプレビューを作成
 	for (int i = 0; i < players[MyStd::ICast(num)].readyGarbage; i++)
 	{
 		Block* block = GameObjectManager::GetInstance().Create<Block>(BlockColor::WHITE, DrawType::Ghost, PREVIEW_POS[MyStd::ICast(num)]);
 		preview[MyStd::ICast(num)].push_back(block);
 	}
 
+	//プレビューの位置を調整
 	int j = 0;
+	const int BLOCK_X = 12; //preview内のブロックのX座標のオフセット
+	const int BLOCK_Y = 21; //preview内のブロックのY座標のオフセット.ブロックが1つ増えるごとにY座標が1減るようにするため、初期値は21にしている.
 	for (auto& p : preview[MyStd::ICast(num)])
 	{
-		p->SetGridPosition({ 12,21 - j });
+		p->SetGridPosition({ BLOCK_X,BLOCK_Y - j });
 		j++;
 	}
 	
@@ -294,13 +301,17 @@ void BattleManager::RefreshPreview(PlayerNumber num)
 
 void BattleManager::SendGarbage(PlayerNumber from, int amount)
 {
+	//自分から見た相手のPlayerNumberを求める.例えば、fromがPlayer1なら、toはPlayer2になる.
 	PlayerNumber to = (from == PlayerNumber::Player1) ? PlayerNumber::Player2 : PlayerNumber::Player1;
+
+	const float AMOUNT_MINO_TIME = 0.5f; //ゴミが相手に届くまでの時間.適宜調整してください.
 
 	GarbageData data;
 	data.amount = amount;
-	data.timer = 0.5f;
+	data.timer = AMOUNT_MINO_TIME;
 	if (players[MyStd::Cast<int>(from)].readyGarbage > 0)
 	{
+		//相手に送るゴミの量から、自分がすでに溜めているゴミの量を引く.例えば.
 		int remainingGarbage = data.amount - players[MyStd::Cast<int>(from)].readyGarbage;
 		if (remainingGarbage < 0)
 		{
@@ -313,23 +324,28 @@ void BattleManager::SendGarbage(PlayerNumber from, int amount)
 			players[MyStd::Cast<int>(from)].readyGarbage = 0;
 		}
 	}
+	//もし送るゴミの量が0以下になってしまったら、何もしないで返す.
 	if (data.amount <= 0)
 	{
 		return;
 	}
+	//相手のゴミキューに、送るゴミの量とタイマーをセットしたGarbageDataを追加する.
 	players[MyStd::Cast<int>(to)].garbageQueue.push(data);
 }
 
 
 void BattleManager::ApplyReadyGarbage(PlayerNumber player)
 {
+	//既存のプレビューを削除
 	for (auto& p : preview[MyStd::ICast(player)])
 	{
 		p->Destroy();
 	}
+	//プレビューのベクターをクリア
 	preview[MyStd::ICast(player)].clear();
 	auto& p = players[MyStd::ICast(player)];
 
+	//溜まっているゴミの量が0以下なら、何もしないで返す.
 	if (p.readyGarbage <= 0)
 	{
 		return;

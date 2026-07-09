@@ -134,7 +134,7 @@ void GameMap::SetBlock(Tetromino* mino)
 
 void GameMap::AddGarbageLine(Vec2f boardVec)
 {
-
+	//ゴミラインに空ける穴の位置を決めるカウンターが0以下になったら、穴の位置をランダムに決めて、カウンターをリセットする.
 	if (garbageHoleCounter <= 0)
 	{
 		garbageHoleX =
@@ -145,7 +145,8 @@ void GameMap::AddGarbageLine(Vec2f boardVec)
 	}
 	garbageHoleCounter--;
 
-	for (int y = 0;y < Config::FIELD_HEIGHT - 1;y++)
+	//ゴミラインを追加する.ゴミラインは、すべての行を1マス上に移動させて、最後の行に新しいゴミラインを作ることで実装する.
+	for (int y = 0; y < Config::FIELD_HEIGHT - 1; y++)
 	{
 		for (int x = 0;
 			x < Config::FIELD_WIDTH;
@@ -162,9 +163,8 @@ void GameMap::AddGarbageLine(Vec2f boardVec)
 		}
 	}
 
-	for (int x = 0;
-		x < Config::FIELD_WIDTH;
-		x++)
+	//最後の行に新しいゴミラインを作る.ゴミラインは、穴の位置以外にブロックがあるようにする.
+	for (int x = 0; x < Config::FIELD_WIDTH; x++)
 	{
 		if (x == garbageHoleX)
 		{
