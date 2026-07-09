@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 
 
 class Job
 {
 public:
     virtual ~Job()              {};
-    virtual void Initialize()   =0; //‰Šú‰»
-    virtual void Finalize()     {}; //I—¹ˆ—
-    virtual void Update()       {}; //XV
-    virtual void Draw()         {}; //•`‰æ
+    virtual void Initialize()   =0; //åˆæœŸåŒ–
+    virtual void Finalize()     {}; //çµ‚äº†å‡¦ç†
+    virtual void Update()       {}; //æ›´æ–°
+    virtual void Draw()         {}; //æç”»
 };

@@ -1,10 +1,12 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Game.h"
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "GameObjectManager.h"
 #include "ColliderManager.h"
 #include "ImageLoadManager.h"
+#include "NetworkManager.h"
+#include "BattleManager.h"
 
 void Game::Initialize()
 {
@@ -13,7 +15,7 @@ void Game::Initialize()
     sceneMgr = new SceneManager();
 }
 
-//‚±‚±‚Åinstance‚ğ•K‚¸¢Š«‚µ‚Ä‚¨‚­•K—v‚È‚çinitialize‚à
+//ã“ã“ã§instanceã‚’å¿…ãšå¬å–šã—ã¦ãŠãå¿…è¦ãªã‚‰initializeã‚‚
 void Game::InitManager() 
 {
     TimeManager::GetInstance();
@@ -21,6 +23,7 @@ void Game::InitManager()
     GameObjectManager::GetInstance();
     ColliderManager::GetInstance();
 	ImageLoadManager::GetInstance().Initialize();
+	BattleManager::GetInstance();
 }
 
 void Game::Finalize()
@@ -32,6 +35,7 @@ void Game::Finalize()
         sceneMgr = nullptr;
     }
 	ImageLoadManager::GetInstance().Finalize();
+	NetworkManager::GetInstance().Finalize();
 }
 
 void Game::Draw()

@@ -1,6 +1,7 @@
-#pragma once
+﻿#pragma once
 #include "Job.h"
 
+// 衝突判定用のタグを表す列挙型
 enum class ColliderTag
 {
     TAG_NULL,
@@ -9,6 +10,8 @@ enum class ColliderTag
     TAG_BULLET,
 };
 
+// 衝突判定用のタグを表す列挙型.
+// カプセルは故障中.
 enum class ColliderType
 {
     BOX,
@@ -46,7 +49,7 @@ public:
 
     virtual ColliderType GetColliderType() const = 0;
 
-#if DEBUG
+#if COLLIDER_DEBUG
     virtual void DebugDraw() {};
 #endif
 };

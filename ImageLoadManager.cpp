@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "ImageLoadManager.h"
 
 void ImageLoadManager::Initialize()
@@ -16,7 +16,7 @@ void ImageLoadManager::Initialize()
 	}
 	*/
 
-	LoadDivGraph(L"Resources/Images/ƒeƒgƒŠƒX‘fŞ.png", 7, 7, 1, 32, 32, &grHandle[0]);
+	LoadDivGraph(L"Resources/Images/ãƒ†ãƒˆãƒªã‚¹ç´ æ.png", 8, 8, 1, 32, 32, &grHandle[0]);
 }
 
 void ImageLoadManager::Finalize()

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "BaseScene.h"
 #include "SceneController.h"
 #include "GameObjectManager.h"

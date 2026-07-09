@@ -1,0 +1,840 @@
+@startuml
+class "std::chrono::time_point<std::chrono::steady_clock>" as C_0007266598699661834830
+class C_0007266598699661834830 {
+__
+}
+class "std::variant<AnimCircle,AnimRect>" as C_0002484199052653993167
+class C_0002484199052653993167 {
+__
+}
+class "std::vector<std::variant<AnimCircle,AnimRect>>" as C_0015018936413077839493
+class C_0015018936413077839493 {
+__
+}
+class "std::vector<Frame>" as C_0014410036990320653538
+class C_0014410036990320653538 {
+__
+}
+class "std::function<void()>" as C_0011970315036169891779
+class C_0011970315036169891779 {
+__
+}
+class "std::unique_ptr<BaseCollider>" as C_0006189133351563588689
+class C_0006189133351563588689 {
+__
+}
+class "std::vector<std::unique_ptr<BaseCollider>>" as C_0015453566309565457367
+class C_0015453566309565457367 {
+__
+}
+class "std::vector<LineInfo>" as C_0015510678648612464157
+class C_0015510678648612464157 {
+__
+}
+class "std::vector<Drawable *>" as C_0011150151102143569103
+class C_0011150151102143569103 {
+__
+}
+class "std::unique_ptr<GameObject>" as C_0018170611197554585037
+class C_0018170611197554585037 {
+__
+}
+class "std::vector<std::unique_ptr<GameObject>>" as C_0001411019381130566715
+class C_0001411019381130566715 {
+__
+}
+class "std::vector<BaseCollider *>" as C_0013427928163483092026
+class C_0013427928163483092026 {
+__
+}
+class "std::unique_ptr<GameMap>" as C_0018086763653854288446
+class C_0018086763653854288446 {
+__
+}
+class "std::vector<MinoType>" as C_0011587428782150078672
+class C_0011587428782150078672 {
+__
+}
+class "Vector2D<float>" as C_0002326960787058163372
+class C_0002326960787058163372 {
+__
+}
+class "Vector2D<T>" as C_0008139959190321550150
+class C_0008139959190321550150 {
++Vector2D() noexcept = default : void
++Vector2D(const T & x_, const T & y_) noexcept : void
++Vector2D(const T & v) noexcept : void
+..
++AngleDeg() const noexcept : double
++AngleRad() const noexcept : double
++Cross(const Vector2D<T> & v) constexpr const noexcept : T
++CrossLine(const Vector2D<T> & A, const Vector2D<T> & B) const noexcept : T
++Distance(const Vector2D<T> & v) const noexcept : double
++Dot(const Vector2D<T> & v) constexpr const noexcept : T
+{static} +FromAngleDeg(const double deg) noexcept : Vector2D<T>
+{static} +FromAngleRad(const double rad) noexcept : Vector2D<T>
++IsLeftOf(const Vector2D<T> & v) constexpr const noexcept : bool
++IsLeftOfLine(const Vector2D<T> & A, const Vector2D<T> & B) const noexcept : bool
++IsNormalized(double eps = 1e-6) const noexcept : bool
++IsOnLine(const Vector2D<T> & A, const Vector2D<T> & B) const noexcept : bool
++IsRightOf(const Vector2D<T> & v) constexpr const noexcept : bool
++IsRightOfLine(const Vector2D<T> & A, const Vector2D<T> & B) const noexcept : bool
++Length() const noexcept : double
++LengthSq() constexpr const noexcept : T
++Normalize() const noexcept : Vector2D<float>
++NormalizedSameType<U=T>() const noexcept : std::enable_if_t<std::is_floating_point_v<U>, Vector2D<U> >
+__
++x : T
++y : T
+}
+class "AnimCircle" as C_0013073801903576802228
+class C_0013073801903576802228 {
+__
++color : unsigned int
++fill : bool
++offset : Vec2f
++radius : float
+}
+class "AnimRect" as C_0011221879978363883950
+class C_0011221879978363883950 {
+__
++color : unsigned int
++fill : bool
++height : float
++offset : Vec2f
++width : float
+}
+class "Frame" as C_0017228831225763461510
+class C_0017228831225763461510 {
+__
++graphicHandle : int
++shapes : std::vector<AnimShape>
+}
+class "Animation" as C_0011962374237075642621
+class C_0011962374237075642621 {
++Animation() : void
++Animation(const std::vector<Frame> & frames, int frameTimeMs) : void
+..
++GetFrameCount() const : int
++GetFrameTime() const : int
++GetFrames() const : const std::vector<Frame> &
++SetFrames(const std::vector<Frame> & frames, int frame_time_ms) : void
+__
+-frameTimeMs : int
+-frames : std::vector<Frame>
+}
+class "Animator" as C_0010963690946328088244
+class C_0010963690946328088244 {
++Animator() : void
+..
++ChangeAnimation(const Animation & anim, bool loop) : void
++Draw(Vec2f pos, float scale = 1.0f, float angle = 0.0f, BOOL trans_flag = 1) : void
++IsPlaying() const : bool
++Stop() : void
++Update() : void
+__
+-currentAnim : const Animation *
+-currentFrame : int
+-isPlaying : bool
+-lastUpdate : std::chrono::steady_clock::time_point
+-loop : bool
+}
+abstract "Job" as C_0006587530514772815036
+abstract C_0006587530514772815036 {
++~Job() : void
+..
++Draw() : void
++Finalize() : void
+{abstract} +Initialize() = 0 : void
++Update() : void
+__
+}
+enum "ColliderTag" as C_0003494164232748244379
+enum C_0003494164232748244379 {
+TAG_NULL
+TAG_PLAYER
+TAG_ENEMY
+TAG_BULLET
+}
+enum "ColliderType" as C_0009195791571073735701
+enum C_0009195791571073735701 {
+BOX
+CIRCLE
+CAPSULE
+TYPE_NULL
+}
+abstract "BaseCollider" as C_0004808785286673466252
+abstract C_0004808785286673466252 {
++~BaseCollider() : void
+..
++Destroy() : void
+{abstract} +GetColliderType() const = 0 : ColliderType
++GetOwner() const : GameObject *
++GetTag() const : ColliderTag
++GetWorldPosition() const : Vector2D<float>
++IsDestroyed() const : bool
++SetLocalPosition(const Vector2D<float> & p) : void
++SetOwner(GameObject * o) : void
++SetTag(ColliderTag t) : void
+__
+#isDestroyed : bool
+#localPos : Vector2D<float>
+#owner : GameObject *
+#tag : ColliderTag
+}
+class "Camera" as C_0006111862596534002478
+class C_0006111862596534002478 {
++GetPos() const : const Vector2D<float> &
++SetCameraPos(const Vector2D<float> cameraPos) : void
++ToScreen(const Vector2D<float> & worldPos) const : Vector2D<float>
+__
+-pos : Vector2D<float>
+}
+enum "E_TEXTURE" as C_0001079272491825831100
+enum C_0001079272491825831100 {
+BLOCK_LIGHT_BLUE
+BLOCK_BLUE
+BLOCK_ORANGE
+BLOCK_YELLOW
+BLOCK_GREEN
+BLOCK_PURPLE
+BLOCK_RED
+TEX_COUNT
+}
+class "ImageLoadManager" as C_0015289640028189563497
+class C_0015289640028189563497 {
+-ImageLoadManager() : void
++ImageLoadManager(const ImageLoadManager &) = deleted : void
+-~ImageLoadManager() = default : void
+..
++operator=(const ImageLoadManager &) = deleted : ImageLoadManager &
+..
++Draw() : void
++Finalize() : void
+{static} +GetInstance() : ImageLoadManager &
++Initialize() : void
++Update() : void
++getGraphHandle(E_TEXTURE tex) : int
+__
+-grHandle : int[7]
+}
+abstract "Drawable" as C_0006494972276112881551
+abstract C_0006494972276112881551 {
++~Drawable() : void
+..
++CreateAnimation() : void
++Destroy() : void
+{abstract} +Draw(const Camera & camera) = 0 : void
++GetDrawLayer() const : int
++IsDestroyed() const : bool
++SetDrawLayer(int _drawLayer) : void
+__
+#animator : Animator
+-drawLayer : int
+#isDestroyed : bool
++onLayerChanged : std::function<void ()>
+}
+class "GameObject" as C_0010250684592540512228
+class C_0010250684592540512228 {
++AddCollider(std::unique_ptr<BaseCollider> col) : void
++CreateAnimation() : void
++Destroy() : void
++Draw(const Camera & camera) : void
++Finalize() : void
++GetColliders() const : const std::vector<std::unique_ptr<BaseCollider>> &
++GetPosition() const : Vector2D<float>
++Initialize() : void
++OnCollision(BaseCollider * other) : void
++SetPosition(const Vector2D<float> & p) : void
++Update() : void
+__
+-colliders : std::vector<std::unique_ptr<BaseCollider>>
+-pos : Vector2D<float>
+}
+class "LineInfo" as C_0004178486214732510723
+class C_0004178486214732510723 {
+__
++alpha : float
++starPos : Vec2f
+}
+enum "StarState" as C_0004300809171488972610
+enum C_0004300809171488972610 {
+IDLE
+DESTROY
+}
+class "BackGroundStar" as C_0014793189273561649257
+class C_0014793189273561649257 {
++BackGroundStar(Vec2f startPos, Vec2f _vec, float speed) : void
++~BackGroundStar() : void
+..
++Destroy() : void
++Draw(const Camera & camera) : void
++Finalize() : void
++Initialize() : void
+-LineAlphaCalculation(Vec2f _starPos) : int
++OnCollision(BaseCollider * other) : void
++SetAnimation(const Animation * _idle, const Animation * _destroy) : void
++Update() : void
+__
+-destroy : const Animation *
+-dotAlpha : float
+-idle : const Animation *
+-radius : float
+-speed : float
+-starPoss : std::vector<LineInfo>
+-state : StarState
+-vec : Vec2f
+}
+class "BackGround" as C_0000916701287730657949
+class C_0000916701287730657949 {
++BackGround() : void
++~BackGround() : void
+..
++AllDestroy() : void
++CreateAnimation() : void
++Draw(const Camera & camera) : void
++Finalize() : void
++Initialize() : void
++Kill() : void
++Update() : void
+__
+-SPAWN_INTERVAL : const float
+-mouseStar : BackGroundStar *
+-spawnTimer : float
+-starDestroyAnim : Animation *
+-starIdleAnim : Animation *
+-stars : BackGroundStar *[100]
+}
+class "DrawManager" as C_0001185705171301404994
+class C_0001185705171301404994 {
++Add(Drawable * obj) : void
++Clear() : void
++DestroyedDrawableCheck() : void
++DrawAll(const Camera & camera) : void
+__
+-drawList : std::vector<Drawable *>
+-isSorted : bool
+}
+class "GameObjectManager" as C_0005560623204830570427
+class C_0005560623204830570427 {
+-GameObjectManager() = default : void
+..
++CheckDestroyedObjects() : void
++Clear() : void
++Create<T,Args...>(Args &&... args) : T *
++Destroy(GameObject * obj) : void
+{static} +GetInstance() : GameObjectManager &
++SetDrawManager(DrawManager * mgr) : void
++Update() : void
+__
+-addBuffer : std::vector<std::unique_ptr<GameObject>>
+-drawMgr : DrawManager *
+-objects : std::vector<std::unique_ptr<GameObject>>
+}
+class "TimeManager" as C_0007372839979627962683
+class C_0007372839979627962683 {
+-TimeManager() : void
++TimeManager(const TimeManager &) = deleted : void
+-~TimeManager() : void
+..
++operator=(const TimeManager &) = deleted : TimeManager &
+..
++GetDeltaTime() const : float
++GetFPS() const : UINT
+{static} +GetInstance() : TimeManager &
++GetRawDeltaTime() const : float
++GetScaledDeltaTime(float localTimeScale = 1.0f) const : float
++IsPaused() const : bool
++SetPause(bool p) : void
++SetStartTime() : void
++UpdateTiming() : BOOL
+__
+-deltaTime : float
+-fps : UINT
+-pause : bool
+-rawDeltaTime : float
+-startTime : LONGLONG
+-us : LONGLONG
+}
+class "Vector2D<int>" as C_0003959321716489154333
+class C_0003959321716489154333 {
+__
+}
+class "InputManager" as C_0007529291253653007674
+class C_0007529291253653007674 {
+-InputManager() : void
++InputManager(const InputManager &) = deleted : void
+-~InputManager() = default : void
+..
++operator=(const InputManager &) = deleted : InputManager &
+..
++Draw() : void
++Finalize() : void
+{static} +GetInstance() : InputManager &
++GetMousePosition() const : Vec2i
++GetMousePositionF() const : Vec2f
++Initialize() : void
++Update() : void
++getMouseX() const : int
++getMouseY() const : int
++getWheelRot() const : int
++isMousePressLeft() const : bool
++isMousePressMiddle() const : bool
++isMousePressRight() const : bool
++isMouseTriggerLeft() const : bool
++isMouseTriggerMiddle() const : bool
++isMouseTriggerRight() const : bool
++isPress(int key) const : BOOL
++isTrigger(int key) const : BOOL
+__
+-keys : char[256]
+-mouseButtons : int[3]
+-mouseX : int
+-mouseY : int
+-oldKeys : char[256]
+-oldMouseButtons : int[3]
+-wheelRot : int
+}
+class "BoxCollider" as C_0005411490672434116202
+class C_0005411490672434116202 {
++BoxCollider(const Vector2D<float> local, const Vector2D<float> hs) : void
+..
++GetColliderType() const : ColliderType
++GetHalfSize() const : Vector2D<float>
+__
+-halfSize : Vector2D<float>
+}
+class "CircleCollider" as C_0003112954082238826041
+class C_0003112954082238826041 {
++CircleCollider(const Vector2D<float> local, float r) : void
+..
++GetColliderType() const : ColliderType
++GetRadius() const : float
+__
+-radius : float
+}
+class "CapsuleCollider" as C_0000031422070934088568
+class C_0000031422070934088568 {
++CapsuleCollider(const Vector2D<float> local, float r, float hHe) : void
+..
++CapsuleBottom() const : Vector2D<float>
++CapsuleTop() const : Vector2D<float>
++GetColliderType() const : ColliderType
++GetHalfHeight() const : float
++GetRadius() const : float
+__
+-halfHeight : float
+-radius : float
+}
+class "ColliderManager" as C_0002551449125819467508
+class C_0002551449125819467508 {
+-ColliderManager() = default : void
+..
+-BoxVsBox(const BoxCollider * a, const BoxCollider * b) : bool
+-CapsuleVsBox(const CapsuleCollider * cap, const BoxCollider * box) : bool
+-CapsuleVsCapsule(const CapsuleCollider * a, const CapsuleCollider * b) : bool
++CheckAllCollisions() : void
+-CheckPair(BaseCollider * a, BaseCollider * b) : bool
+-CircleVsBox(const CircleCollider * c, const BoxCollider * b) : bool
+-CircleVsCapsule(const CircleCollider * circle, const CapsuleCollider * cap) : bool
+-CircleVsCircle(const CircleCollider * a, const CircleCollider * b) : bool
++Create<T,Args...>(GameObject * parent, Args &&... args) : T *
++DestroyedColliderCheck() : void
+-DistanceSq_Point_Segment(const Vector2D<float> & pc, const Vector2D<float> & a, const Vector2D<float> & b) : float
+{static} +GetInstance() : ColliderManager &
+-SegmentVsBox(const Vector2D<float> & a, const Vector2D<float> & b, const BoxCollider * box, float radius) : bool
+__
+-colliders : std::vector<BaseCollider *>
+}
+enum "CommandType" as C_0003736143714621770114
+enum C_0003736143714621770114 {
+None
+Attack
+OpenMagic
+Magic
+Defend
+Escape
+Back
+}
+class "CommandResult" as C_0015467562125767238347
+class C_0015467562125767238347 {
+__
++index : int
++type : CommandType
+}
+class "BaseCommandBox" as C_0017425997869048303614
+class C_0017425997869048303614 {
++BaseCommandBox() : void
++~BaseCommandBox() : void
+..
++GetResult() const : CommandResult
++IsDecided() const : bool
++ResetDecision() : void
+__
+#isDecided : bool
+#result : CommandResult
+}
+enum "SceneName" as C_0008333312706013352632
+enum C_0008333312706013352632 {
+GAME
+COUNT
+BACK
+INVALID
+BEGIN
+}
+abstract "SceneController" as C_0003614740487780345311
+abstract C_0003614740487780345311 {
+{abstract} +~SceneController() = 0 : void
+..
+{abstract} +BackScene() = 0 : void
+{abstract} +ChangeScene(SceneName nextScene) = 0 : void
+{abstract} +RequestQuit() = 0 : void
+__
+}
+abstract "BaseScene" as C_0017328691126873547584
+abstract C_0017328691126873547584 {
++BaseScene(SceneController * changer) : void
++~BaseScene() : void
+..
++AddDrawable(Drawable * obj) : void
++Draw() : void
++Finalize() : void
++Initialize() : void
+{abstract} +Kill() = 0 : void
++Update() : void
+__
+#camera : Camera
+#drawMgr : DrawManager
+#sceneController : SceneController *
+}
+enum "BlockColor" as C_0007090218034282375509
+enum C_0007090218034282375509 {
+LIGHT_BLUE
+BLUE
+ORANGE
+YELLOW
+GREEN
+PURPLE
+RED
+COLOR_NULL
+}
+class "Block" as C_0003110547038768958146
+class C_0003110547038768958146 {
++Block() : void
++Block(BlockColor _color) : void
++~Block() : void
+..
++Draw(const Camera & camera) : void
++Finalize() : void
++GetGridPosition() const : Vec2i
++Initialize() : void
++SetGridPosition(const Vec2i & pos) : void
++Update() : void
+__
+-Gpos : Vec2i
+-color : BlockColor
+-grHandle : int
+}
+class "SceneManager" as C_0001828870162017714850
+class C_0001828870162017714850 {
++SceneManager() : void
++~SceneManager() : void
+..
++BackScene() : void
++ChangeScene(SceneName NextScene) : void
+-CreateScene(SceneName name) : BaseScene *
++Draw() : void
++Finalize() : void
+-HandleSceneChange() : void
++Initialize() : void
++IsQuitRequested() const : bool
++Kill() : void
++RequestQuit() : void
++Update() : void
+__
+-NextScene : SceneName
+-PrevScene : BaseScene *
+-Scene : BaseScene *
+-requestQuit : bool
+}
+class "Game" as C_0013071880978633431303
+class C_0013071880978633431303 {
++Draw() : void
++Finalize() : void
++InitManager() : void
++Initialize() : void
++Kill() : void
++Run() : bool
++Update() : void
+__
+-sceneMgr : SceneManager *
+}
+enum "RotateState" as C_0001533872505238758943
+enum C_0001533872505238758943 {
+UP
+RIGHT
+DOWN
+LEFT
+}
+enum "MinoType" as C_0000513761121647575776
+enum C_0000513761121647575776 {
+I
+J
+L
+O
+S
+Z
+T
+None
+}
+class "Tetromino" as C_0003528912984828059456
+class C_0003528912984828059456 {
++Tetromino() : void
++Tetromino(MinoType type) : void
++~Tetromino() : void
+..
++Draw(const Camera & camera) : void
++Finalize() : void
++GetBlock(int index) const : Block *
++GetBlockGridPosition(int index) const : Vec2i
++GetBlockLocalPosition(int i) const : Vec2i
++GetGridPosition() const : Vec2i
++GetRotateState() const : RotateState
++GetType() const : MinoType
++Initialize() : void
++RotateLeftRaw() : void
++RotateRightRaw() : void
+-SetBlockPos() : void
+-SetColor(MinoType _type) : BlockColor
++SetGridPosition(const Vec2i & pos) : void
++Update() : void
+__
+-BlockLocalPos : Vec2i[4]
+-Gpos : Vec2i
+-blocks : Block *[4]
+-rotateState : RotateState
+-type : MinoType
+}
+class "GameMap" as C_0006689603542437433543
+class C_0006689603542437433543 {
++GameMap() : void
++~GameMap() : void
+..
++BreakBlockCheck() : int
++BreakLine(int line) : void
++Draw() : void
++Finalize() : void
++GetBlock(Vec2i pos) : Block *
++Initialize() : void
++SetBlock(Tetromino * mino) : void
++Update() : void
+__
+-map : Block *[10][22]
+-score : int
+}
+class "MinoManager" as C_0015659943175445047223
+class C_0015659943175445047223 {
++MinoManager() : void
++~MinoManager() : void
+..
+-AddScore(int lineCount, bool isTspin, bool isMini) : void
+-CheckTSpinCondition(int & outCornerCount, bool & outIsMini) : bool
++Draw(const Camera & camera) : void
++Finalize() : void
++GetCurrentMino() const : Tetromino *
++GetNextMino() const : Tetromino *
+-GetNextType() : MinoType
++GetScore() const : int
+-HardDrop() : void
++Initialize() : void
++IsEffectPlaying() : bool
++IsGameOver() const : bool
+-IsMoveValid(const Vec2i & newPos) const : bool
+-LockMino() : void
+-MinoUpdate() : void
+-RefillBag() : void
+-TestMino(const Vec2i & newPos) const : void
+-TryHold() : void
+-TryRotateLeft() : void
+-TryRotateRight() : void
++Update() : void
+-UpdateFallInterval() : void
+__
+-SPEED_TABLE : const float[16]
+-bag : std::vector<MinoType>
+-currentMino : Tetromino *
+-fallInterval : double
+-fallTimer : double
+-gameMap : std::unique_ptr<GameMap>
+-hasHeldInThisTurn : bool
+-holdMinoType : MinoType
+-holdMinoVisual : Tetromino *
+-isEffectPlaying : bool
+-isGameOver : bool
+-lastActionIsRotate : bool
+-lastKickIndex : int
+-level : int
+-linesForNextLevel : int
+-lockDelay : float
+-lockTimer : float
+-nextMino : Tetromino *
+-score : int
+-totalLinesCleared : int
+}
+class "GameScene" as C_0004198675053829191301
+class C_0004198675053829191301 {
++GameScene(SceneController * sceneController) : void
++~GameScene() : void
+..
++Draw() : void
++Finalize() : void
++Initialize() : void
++Kill() : void
++Update() : void
+__
+-bg : BackGround *
+-minoMgr : MinoManager
+}
+C_0002484199052653993167 ..> C_0013073801903576802228
+C_0002484199052653993167 ..> C_0011221879978363883950
+C_0015018936413077839493 ..> C_0002484199052653993167
+C_0014410036990320653538 ..> C_0017228831225763461510
+C_0006189133351563588689 ..> C_0004808785286673466252
+C_0015453566309565457367 ..> C_0006189133351563588689
+C_0015510678648612464157 ..> C_0004178486214732510723
+C_0011150151102143569103 ..> C_0006494972276112881551
+C_0018170611197554585037 ..> C_0010250684592540512228
+C_0001411019381130566715 ..> C_0018170611197554585037
+C_0013427928163483092026 ..> C_0004808785286673466252
+C_0018086763653854288446 ..> C_0006689603542437433543
+C_0011587428782150078672 ..> C_0000513761121647575776
+C_0002326960787058163372 ..|> C_0008139959190321550150
+C_0008139959190321550150 ..> C_0002326960787058163372
+C_0013073801903576802228 o-- C_0002326960787058163372 : +offset
+C_0011221879978363883950 o-- C_0002326960787058163372 : +offset
+C_0017228831225763461510 o-- C_0015018936413077839493 : +shapes
+C_0011962374237075642621 ..> C_0017228831225763461510
+C_0011962374237075642621 o-- C_0014410036990320653538 : -frames
+C_0010963690946328088244 ..> C_0002326960787058163372
+C_0010963690946328088244 ..> C_0008139959190321550150
+C_0010963690946328088244 --> C_0011962374237075642621 : -currentAnim
+C_0010963690946328088244 o-- C_0007266598699661834830 : -lastUpdate
+C_0004808785286673466252 ..> C_0008139959190321550150
+C_0004808785286673466252 ..> C_0009195791571073735701
+C_0004808785286673466252 o-- C_0002326960787058163372 : #localPos
+C_0004808785286673466252 --> C_0010250684592540512228 : #owner
+C_0004808785286673466252 o-- C_0003494164232748244379 : #tag
+C_0006111862596534002478 ..> C_0008139959190321550150
+C_0006111862596534002478 o-- C_0002326960787058163372 : -pos
+C_0015289640028189563497 ..> C_0001079272491825831100
+C_0006587530514772815036 <|-- C_0015289640028189563497
+C_0006494972276112881551 ..> C_0006111862596534002478
+C_0006494972276112881551 o-- C_0010963690946328088244 : #animator
+C_0006494972276112881551 o-- C_0011970315036169891779 : +onLayerChanged
+C_0006587530514772815036 <|-- C_0006494972276112881551
+C_0010250684592540512228 ..> C_0008139959190321550150
+C_0010250684592540512228 ..> C_0006189133351563588689
+C_0010250684592540512228 ..> C_0004808785286673466252
+C_0010250684592540512228 ..> C_0006111862596534002478
+C_0010250684592540512228 o-- C_0002326960787058163372 : -pos
+C_0010250684592540512228 o-- C_0015453566309565457367 : -colliders
+C_0006494972276112881551 <|-- C_0010250684592540512228
+C_0004178486214732510723 o-- C_0002326960787058163372 : +starPos
+C_0014793189273561649257 ..> C_0008139959190321550150
+C_0014793189273561649257 ..> C_0004808785286673466252
+C_0014793189273561649257 ..> C_0006111862596534002478
+C_0014793189273561649257 o-- C_0002326960787058163372 : -vec
+C_0014793189273561649257 o-- C_0015510678648612464157 : -starPoss
+C_0014793189273561649257 o-- C_0004300809171488972610 : -state
+C_0014793189273561649257 --> C_0011962374237075642621 : -idle
+C_0014793189273561649257 --> C_0011962374237075642621 : -destroy
+C_0010250684592540512228 <|-- C_0014793189273561649257
+C_0000916701287730657949 ..> C_0006111862596534002478
+C_0000916701287730657949 --> "100" C_0014793189273561649257 : -stars
+C_0000916701287730657949 --> C_0011962374237075642621 : -starIdleAnim
+C_0000916701287730657949 --> C_0011962374237075642621 : -starDestroyAnim
+C_0000916701287730657949 --> C_0014793189273561649257 : -mouseStar
+C_0010250684592540512228 <|-- C_0000916701287730657949
+C_0001185705171301404994 ..> C_0006494972276112881551
+C_0001185705171301404994 ..> C_0006111862596534002478
+C_0001185705171301404994 o-- C_0011150151102143569103 : -drawList
+C_0005560623204830570427 ..> C_0010250684592540512228
+C_0005560623204830570427 o-- C_0001411019381130566715 : -objects
+C_0005560623204830570427 o-- C_0001411019381130566715 : -addBuffer
+C_0005560623204830570427 --> C_0001185705171301404994 : -drawMgr
+C_0003959321716489154333 ..|> C_0008139959190321550150
+C_0007529291253653007674 ..> C_0003959321716489154333
+C_0007529291253653007674 ..> C_0008139959190321550150
+C_0007529291253653007674 ..> C_0002326960787058163372
+C_0006587530514772815036 <|-- C_0007529291253653007674
+C_0005411490672434116202 ..> C_0008139959190321550150
+C_0005411490672434116202 ..> C_0009195791571073735701
+C_0005411490672434116202 o-- C_0002326960787058163372 : -halfSize
+C_0004808785286673466252 <|-- C_0005411490672434116202
+C_0003112954082238826041 ..> C_0002326960787058163372
+C_0003112954082238826041 ..> C_0008139959190321550150
+C_0003112954082238826041 ..> C_0009195791571073735701
+C_0004808785286673466252 <|-- C_0003112954082238826041
+C_0000031422070934088568 ..> C_0002326960787058163372
+C_0000031422070934088568 ..> C_0008139959190321550150
+C_0000031422070934088568 ..> C_0009195791571073735701
+C_0004808785286673466252 <|-- C_0000031422070934088568
+C_0002551449125819467508 ..> C_0004808785286673466252
+C_0002551449125819467508 ..> C_0003112954082238826041
+C_0002551449125819467508 ..> C_0005411490672434116202
+C_0002551449125819467508 ..> C_0000031422070934088568
+C_0002551449125819467508 ..> C_0002326960787058163372
+C_0002551449125819467508 ..> C_0008139959190321550150
+C_0002551449125819467508 ..> C_0010250684592540512228
+C_0002551449125819467508 o-- C_0013427928163483092026 : -colliders
+C_0015467562125767238347 o-- C_0003736143714621770114 : +type
+C_0017425997869048303614 o-- C_0015467562125767238347 : #result
+C_0006587530514772815036 <|-- C_0017425997869048303614
+C_0003614740487780345311 ..> C_0008333312706013352632
+C_0017328691126873547584 ..> C_0006494972276112881551
+C_0017328691126873547584 --> C_0003614740487780345311 : #sceneController
+C_0017328691126873547584 o-- C_0001185705171301404994 : #drawMgr
+C_0017328691126873547584 o-- C_0006111862596534002478 : #camera
+C_0006587530514772815036 <|-- C_0017328691126873547584
+C_0003110547038768958146 ..> C_0006111862596534002478
+C_0003110547038768958146 ..> C_0008139959190321550150
+C_0003110547038768958146 o-- C_0003959321716489154333 : -Gpos
+C_0003110547038768958146 o-- C_0007090218034282375509 : -color
+C_0010250684592540512228 <|-- C_0003110547038768958146
+C_0001828870162017714850 --> C_0017328691126873547584 : -Scene
+C_0001828870162017714850 --> C_0017328691126873547584 : -PrevScene
+C_0001828870162017714850 o-- C_0008333312706013352632 : -NextScene
+C_0003614740487780345311 <|-- C_0001828870162017714850
+C_0006587530514772815036 <|-- C_0001828870162017714850
+C_0013071880978633431303 --> C_0001828870162017714850 : -sceneMgr
+C_0003528912984828059456 ..> C_0007090218034282375509
+C_0003528912984828059456 ..> C_0008139959190321550150
+C_0003528912984828059456 ..> C_0006111862596534002478
+C_0003528912984828059456 o-- C_0003959321716489154333 : -Gpos
+C_0003528912984828059456 o-- "4" C_0003959321716489154333 : -BlockLocalPos
+C_0003528912984828059456 --> "4" C_0003110547038768958146 : -blocks
+C_0003528912984828059456 o-- C_0000513761121647575776 : -type
+C_0003528912984828059456 o-- C_0001533872505238758943 : -rotateState
+C_0010250684592540512228 <|-- C_0003528912984828059456
+C_0006689603542437433543 ..> C_0003528912984828059456
+C_0006689603542437433543 ..> C_0003959321716489154333
+C_0006689603542437433543 ..> C_0008139959190321550150
+C_0006689603542437433543 --> "220" C_0003110547038768958146 : -map
+C_0006587530514772815036 <|-- C_0006689603542437433543
+C_0015659943175445047223 ..> C_0003959321716489154333
+C_0015659943175445047223 ..> C_0008139959190321550150
+C_0015659943175445047223 ..> C_0006111862596534002478
+C_0015659943175445047223 --> C_0003528912984828059456 : -currentMino
+C_0015659943175445047223 --> C_0003528912984828059456 : -nextMino
+C_0015659943175445047223 o-- C_0018086763653854288446 : -gameMap
+C_0015659943175445047223 o-- C_0011587428782150078672 : -bag
+C_0015659943175445047223 o-- C_0000513761121647575776 : -holdMinoType
+C_0015659943175445047223 --> C_0003528912984828059456 : -holdMinoVisual
+C_0004198675053829191301 ..> C_0003614740487780345311
+C_0004198675053829191301 o-- C_0015659943175445047223 : -minoMgr
+C_0004198675053829191301 --> C_0000916701287730657949 : -bg
+C_0017328691126873547584 <|-- C_0004198675053829191301
+
+'Generated with clang-uml, version 0.6.2
+'LLVM version clang version 20.1.7 (https://github.com/llvm/llvm-project.git 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+@enduml

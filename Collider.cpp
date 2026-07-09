@@ -1,7 +1,7 @@
-#include "stdafx.h"
+Ôªø#include "stdafx.h"
 #include "Collider.h"
 
-#if DEBUG
+#if COLLIDER_DEBUG
 void BoxCollider::DebugDraw()
 {
     DrawBoxAA(GetWorldPosition().x - halfSize.x, GetWorldPosition().y - halfSize.y, GetWorldPosition().x + halfSize.x, GetWorldPosition().y + halfSize.y, GetColor(255, 0, 0), FALSE);
@@ -18,11 +18,11 @@ void CapsuleCollider::DebugDraw()
     auto top = CapsuleTop();
     auto bottom = CapsuleBottom();
 
-    // è„â∫ÇÃâ~
+    // ‰∏ä‰∏ã„ÅÆÂÜÜ
     DrawCircleAA(top.x, top.y, radius, 32, GetColor(255, 0, 0), FALSE);
     DrawCircleAA(bottom.x, bottom.y, radius, 32, GetColor(255, 0, 0), FALSE);
 
-    // íÜâõÇÃãÈå`
+    // ‰∏≠Â§Æ„ÅÆÁü©ÂΩ¢
     DrawBoxAA(
         center.x - radius, center.y - halfHeight,
         center.x + radius, center.y + halfHeight,

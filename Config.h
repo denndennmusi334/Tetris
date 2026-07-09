@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 
 namespace Config
 {
-    constexpr int SCREEN_WIDTH = 1280;
-    constexpr int SCREEN_HEIGHT = 720;
+    constexpr int SCREEN_WIDTH = 1440;
+    constexpr int SCREEN_HEIGHT = 810;
 
     constexpr int SCREEN_FPS = 60;
 
-    // ===== ƒeƒgƒŠƒX =====
+    // ===== ãƒ†ãƒˆãƒªã‚¹ =====
 
     constexpr int FIELD_WIDTH = 10;
     constexpr int FIELD_HEIGHT = 22;
@@ -22,7 +22,7 @@ namespace Config
     constexpr int FIELD_PIXEL_W = FIELD_WIDTH * BLOCK_SIZE;
     constexpr int FIELD_PIXEL_H = VISIBLE_HEIGHT * BLOCK_SIZE;
 
-	// ===== ”wŒi =====
+	// ===== èƒŒæ™¯ =====
 
 	constexpr int STAR_COUNT = 100;
 }

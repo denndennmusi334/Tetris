@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "GameObject.h"
 
 enum class BlockColor
@@ -10,8 +10,15 @@ enum class BlockColor
 	GREEN,
 	PURPLE,
 	RED,
+	WHITE,
 
 	COLOR_NULL,
+};
+
+enum class DrawType
+{
+	Normal,
+	Ghost
 };
 
 class Block :
@@ -21,20 +28,23 @@ private:
 	Vec2i Gpos = { 0,0 };
 	BlockColor color = BlockColor::COLOR_NULL;
 	int grHandle = -1;
+	DrawType drawType = DrawType::Normal;
 
-	bool isBreaking = false; //ƒuƒƒbƒN‚ª‰ó‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©.
+	Vec2f boardOrigin = { Config::FIELD_X, Config::FIELD_Y };
+
 public:
 	Block();
-	Block(BlockColor _color);
+	Block(BlockColor _color, DrawType _drawType, Vec2f boardVec);
 	~Block();
 	void Initialize() override;
 	void Finalize() override {};
 	void Update() override {};
 	void Draw(const Camera& camera) override;
-	//ƒuƒƒbƒN‚ª‰ó‚ê‚é‚Æ‚«‚ÉŒÄ‚ÔŠÖ”.
-	void Break();
-	bool isBreakingBlock() const { return isBreaking; }
+	//ãƒ–ãƒ­ãƒƒã‚¯ãŒå£Šã‚Œã‚‹ã¨ãã«å‘¼ã¶é–¢æ•°.
 
+	BlockColor GetColor() const { return color; }
+
+	void SetColor(BlockColor _color);
 	void SetGridPosition(const Vec2i& pos);
 	Vec2i GetGridPosition() const { return Gpos; }
 

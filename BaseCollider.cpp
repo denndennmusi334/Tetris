@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "BaseCollider.h"
 #include "GameObject.h"
 #include "ColliderManager.h"

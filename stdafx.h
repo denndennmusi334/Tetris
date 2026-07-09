@@ -1,11 +1,21 @@
-#pragma once
+Ôªø#pragma once
+
 #define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
 #define _CRT_SECURE_NO_WARNINGS
 #define _USE_MATH_DEFINES
-#define DEBUG false
+#define COLLIDER_DEBUG false
+
+#define USE_BUTTON_EDIT false
+
+#include <winsock2.h>
+#include <ws2tcpip.h>
+
+#include <windows.h>
+
+#pragma comment(lib, "ws2_32.lib")
 
 #include <vector>
-#include <windows.h>
 #include <time.h>
 #include <assert.h>
 #include <cmath>
@@ -19,10 +29,19 @@
 #include <functional>
 #include <chrono>
 #include <variant>
-
+#include <queue>
+#include <sstream>
+#include <ixwebsocket/IXWebSocket.h>
 
 #include "DxLib.h"
-//é©çÏÉwÉbÉ_Å[.
+
+#include <nlohmann/json.hpp>
+#pragma warning(push)
+#pragma warning(disable:4819)
+#include "httplib.h"
+#pragma warning(pop)
+
+// Ëá™‰Ωú„Éò„ÉÉ„ÉÄ„Éº
 #include "Vector.h"
 #include "Config.h"
 #include "Mystd.h"

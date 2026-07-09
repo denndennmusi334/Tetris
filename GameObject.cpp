@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "GameObject.h"
 
 void GameObject::AddCollider(std::unique_ptr<BaseCollider> col)

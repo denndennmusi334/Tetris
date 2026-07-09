@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Job.h"
 #include "BaseScene.h"
 #include "SceneController.h"
@@ -31,15 +31,15 @@ public:
         Scene = nullptr;
         PrevScene = nullptr;
     }
-    void Initialize()                   override ; //‰Šú‰»
-    void Finalize()                     override ; //I—¹ˆ—
-    void Update()                       override ; //XV
-    void Draw()                         override ; //•`‰æ
-	void Kill()                                  ; //ƒV[ƒ“‚ÌKill
+    void Initialize()                   override ; //åˆæœŸåŒ–
+    void Finalize()                     override ; //çµ‚äº†å‡¦ç†
+    void Update()                       override ; //æ›´æ–°
+    void Draw()                         override ; //æç”»
+	void Kill()                                  ; //ã‚·ãƒ¼ãƒ³ã®Kill
 
     bool IsQuitRequested() const { return requestQuit; }
 
-    void ChangeScene(SceneName NextScene)   override;// ˆø” nextScene ‚ÉƒV[ƒ“‚ğ•ÏX‚·‚é
+    void ChangeScene(SceneName NextScene)   override;// å¼•æ•° nextScene ã«ã‚·ãƒ¼ãƒ³ã‚’å¤‰æ›´ã™ã‚‹
     void BackScene()                        override;
     void RequestQuit()                      override;
 
