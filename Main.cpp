@@ -2,12 +2,11 @@
 #include "Game.h"
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int)
 {
-    SetAlwaysRunFlag(TRUE);
-    ChangeWindowMode(TRUE);
+    ChangeWindowMode(FALSE);
     SetGraphMode(Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT, 32);
-    SetDoubleStartValidFlag(TRUE);
     if (DxLib_Init() == -1) return -1;
     SetDrawScreen(DX_SCREEN_BACK);
+    SetMouseDispFlag(TRUE);
 
     Game game;
     game.Initialize();
